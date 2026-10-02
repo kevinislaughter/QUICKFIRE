@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QUICKFIRE</title>
+<!--
+  QUICKFIRE v1.0 — a single-file, local-first firearm ledger.
+  The name is borrowed from the Quickfire Inventory Record Screen (c. 1990).
+  Data lives in a CSV you choose; nothing is sent anywhere.
+
+  Typeface: "Web437 IBM VGA 9x16" from The Ultimate Oldschool PC Font Pack
+  by VileR (https://int10h.org/oldschool-pc-fonts/), CC BY-SA 4.0.
+  Embedded below so the file works offline.
+-->
+<style>
+@font-face{
+  font-family:"VGA437";
+  src:url(data:font/woff;base64,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) format("woff");
+  font-display:block;
+}
+:root{
+  --fs:16px;
+  --phos:#4dff88;      /* lit phosphor */
+  --phos-dim:#22a352;  /* half intensity */
+  --phos-faint:#0f5a2b;
+  --tube:#020d05;      /* unlit tube */
+  --bezel:#0b0d0b;
+  --glow:rgba(77,255,136,.55);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{
+  background:var(--bezel);
+  color:var(--phos);
+  font-family:"VGA437","Perfect DOS VGA 437","Lucida Console","Courier New",monospace;
+  font-size:var(--fs);
+  line-height:1;
+  overflow:hidden;
+  -webkit-font-smoothing:none;
+  font-smooth:never;
+}
+#crt{
+  position:relative;
+  height:100%;
+  padding:clamp(6px,2vw,22px);
+}
+#tube{
+  position:relative;
+  height:100%;
+  background:radial-gradient(ellipse at center, #04210d 0%, var(--tube) 70%, #010603 100%);
+  border-radius:clamp(6px,1.6vw,18px);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.9), inset 0 0 6px rgba(77,255,136,.15), 0 0 0 2px #151a15;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:calc(var(--fs)*.75) calc(var(--fs)*1);
+}
+/* scanlines + slight vignette, above text, ignore clicks */
+#tube::after{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px, rgba(0,0,0,.28) 3px, rgba(0,0,0,0) 4px),
+    radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%);
+  z-index:5;
+}
+.glow, #tube{ text-shadow:0 0 1px var(--phos), 0 0 6px var(--glow); }
+@media (prefers-reduced-motion:no-preference){
+  #tube{ animation:hum 6s infinite steps(60); }
+  @keyframes hum{ 0%,100%{filter:brightness(1)} 47%{filter:brightness(1)} 48%{filter:brightness(.96)} 49%{filter:brightness(1.02)} }
+}
+.bar{
+  flex:0 0 auto;
+  background:var(--phos);
+  color:var(--tube);
+  text-shadow:none;
+  white-space:pre;
+  overflow:hidden;
+  box-shadow:0 0 8px var(--glow);
+}
+#out{
+  flex:1 1 auto;
+  overflow-y:auto;
+  overflow-x:auto;
+  padding:calc(var(--fs)*.5) 0;
+  scrollbar-width:thin;
+  scrollbar-color:var(--phos-faint) transparent;
+}
+.ln{white-space:pre;min-height:1em}
+.dim{color:var(--phos-dim)}
+.q{color:var(--phos)}
+.cur{color:var(--phos-dim)}
+.inv{background:var(--phos);color:var(--tube);text-shadow:none}
+.opt,.row{
+  color:inherit;text-decoration:none;cursor:pointer;
+}
+.opt:hover,.row:hover,.opt:focus-visible,.row:focus-visible{
+  background:var(--phos);color:var(--tube);text-shadow:none;outline:none;
+}
+.okey{color:var(--phos)}
+#promptline{
+  flex:0 0 auto;
+  position:relative;
+  white-space:pre-wrap;
+  word-break:break-all;
+  padding:calc(var(--fs)*.25) 0 calc(var(--fs)*.5);
+  overflow:hidden;
+}
+#ps{color:var(--phos)}
+.cursor{
+  display:inline-block;
+  width:.5625em;height:1em;
+  background:var(--phos);
+  vertical-align:top;
+  box-shadow:0 0 6px var(--glow);
+}
+.cursor.over{color:var(--tube);text-shadow:none;width:auto}
+@media (prefers-reduced-motion:no-preference){
+  .cursor{animation:blink 1.06s steps(1) infinite}
+  @keyframes blink{50%{background:transparent;color:inherit;box-shadow:none;text-shadow:inherit}}
+}
+#in{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  opacity:0;
+  font-size:16px; /* prevents iOS zoom */
+  border:0;background:transparent;color:transparent;caret-color:transparent;
+}
+#dropveil{
+  position:absolute;inset:0;z-index:6;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(2,13,5,.85);
+  white-space:pre;
+}
+#dropveil.on{display:flex}
+.art{font-family:"Segoe UI Symbol","Apple Braille","Noto Sans Symbols 2","DejaVu Sans",monospace;font-size:1em;line-height:1;letter-spacing:0}
+#printout{display:none}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+#filepick{display:none}
+
+@media print{
+  @page{margin:12mm}
+  body{background:#fff;color:#000;overflow:visible;font-size:9pt;height:auto}
+  #crt{display:none}
+  #printout{display:block;white-space:pre;font-family:"VGA437","Courier New",monospace;line-height:1;color:#000;text-shadow:none}
+  #printout.wide{font-size:6.2pt}
+  .pb{break-after:page}
+}
+</style>
+</head>
+<body>
+<div id="crt">
+  <div id="tube">
+    <div id="topbar" class="bar"></div>
+    <div id="out" aria-label="Terminal output"></div>
+    <div id="sr" aria-live="polite" class="sr-only"></div>
+    <div id="promptline"><span id="ps"></span><span id="typed"></span><input id="in" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Command input"></div>
+    <div id="statusbar" class="bar"></div>
+    <div id="dropveil">DROP THE .CSV LEDGER TO OPEN IT</div>
+  </div>
+</div>
+<pre id="printout"></pre>
+<input type="file" id="filepick" accept=".csv,text/csv">
+
+<script>
+"use strict";
+/* ═══════════════════════════════════════════════════════════════════════
+   CONSTANTS & DATA MODEL
+   ═══════════════════════════════════════════════════════════════════════ */
+const VERSION = "1.0";
+const COLS = 80;
+const STORE_KEY = "firearm-logbook:working-copy";
+
+const CSV_COLS = [
+  "log_no","status","type","type_other","make","model","year","caliber","serial",
+  "action","finish","barrel","notes",
+  "nfa_item","nfa_form","nfa_registrant_type","nfa_registrant","nfa_status","nfa_submitted","nfa_approved","nfa_stamp","nfa_oal",
+  "acq_source","acq_source_other","acq_date","acq_condition","acq_name","acq_cost","acq_address",
+  "repairs",
+  "disp_source","disp_source_other","disp_date","disp_price","disp_name","disp_id","disp_phone",
+  "disp_dob","disp_other","disp_address",
+  "created","modified"
+];
+const CH_TYPE = ["RIFLE","SHOTGUN","HANDGUN","NFA","OTHER"];
+const CH_NFA_ITEM = ["SUPPRESSOR","SBR","SBS","AOW","MACHINE GUN","DESTRUCTIVE DEVICE"];
+const NFA_SHORT = { "SUPPRESSOR":"SUPP", "SBR":"SBR", "SBS":"SBS", "AOW":"AOW", "MACHINE GUN":"MG", "DESTRUCTIVE DEVICE":"DD" };
+const CH_NFA_FORM = ["FORM 4","FORM 1","FORM 5","OTHER"];
+const CH_NFA_REG = ["TRUST","INDIVIDUAL","CORPORATION"];
+const CH_NFA_STATUS = ["PENDING","APPROVED"];
+const NFA_KEYS = ["nfa_item","nfa_form","nfa_registrant_type","nfa_registrant","nfa_status","nfa_submitted","nfa_approved","nfa_stamp","nfa_oal"];
+const DISP_KEYS = ["disp_source","disp_source_other","disp_date","disp_price","disp_name","disp_id","disp_phone","disp_dob","disp_other","disp_address"];
+const isNFA = r => r.type === "NFA";
+const isSuppressor = r => isNFA(r) && r.nfa_item === "SUPPRESSOR";
+const hasOAL = r => isNFA(r) && ["SBR","SBS","AOW"].includes(r.nfa_item);
+const CH_SRC  = ["STORE","SHOW","PRIVATE","OTHER"];
+const CH_COND = ["NEW","USED"];
+
+const S = {
+  records: [],
+  dirty: false,
+  fileHandle: null,
+  fileName: "",
+  handler: null,
+  screen: null,          // function that redraws the current screen
+  hint: "",
+  history: [], hIdx: -1,
+  br: { page:0, filter:"ALL", sort:"LOG#", q:"" },
+  cur: null,
+  sound: true,
+  autosave: true,
+  writeChain: Promise.resolve(),
+  revision: 0,          // bumps on every change
+  savedRevision: 0,     // highest revision known to be on disk (or downloaded)
+  recovery: true,       // keep a plaintext recovery copy in localStorage
+  stashOK: true,
+  stashWarned: false,
+  booting: true,
+};
+
+function blankRecord(){
+  const r = {};
+  CSV_COLS.forEach(c => r[c] = "");
+  r.repairs = [];
+  return r;
+}
+function clone(r){ const c = Object.assign({}, r); c.repairs = (r.repairs||[]).map(x => Object.assign({}, x)); return c; }
+function isDisposed(r){ return r.status === "DISPOSED" || !!(r.disp_source || r.disp_date || r.disp_name || r.disp_price); }
+function typeOf(r, short){
+  if(isNFA(r)) return short ? "NFA/" + (NFA_SHORT[r.nfa_item] || "?") : ("NFA" + (r.nfa_item ? ": " + r.nfa_item : ""));
+  return r.type === "OTHER" ? (r.type_other || "OTHER") : (r.type || "");
+}
+function srcOf(r, p){ return r[p+"_source"] === "OTHER" ? (r[p+"_source_other"] || "OTHER") : (r[p+"_source"] || ""); }
+/* YYNN: last two digits of the year, then the order of arrival that year (2403 = third item of 2024) */
+function nextLogNo(){
+  const yy = String(new Date().getFullYear() % 100).padStart(2,"0");
+  let max = 0;
+  S.records.forEach(r => { const m = new RegExp("^" + yy + "(\\d{2,})$").exec(String(r.log_no).trim()); if(m) max = Math.max(max, parseInt(m[1],10)); });
+  return yy + String(max + 1).padStart(2,"0");
+}
+function stats(){
+  const n = S.records.length, d = S.records.filter(isDisposed).length;
+  return { n, d, h: n - d };
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   STRING HELPERS
+   ═══════════════════════════════════════════════════════════════════════ */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const pad = (s,n) => { s = String(s ?? ""); return s.length > n ? s.slice(0,n) : s + " ".repeat(n - s.length); };
+const padL = (s,n) => { s = String(s ?? ""); return s.length > n ? s.slice(0,n) : " ".repeat(n - s.length) + s; };
+const cut = (s,n) => { s = String(s ?? ""); return s.length > n ? s.slice(0, n-1) + "~" : s; };
+const center = (s,n,ch=" ") => { s = String(s); const l = Math.floor((n - s.length)/2); return ch.repeat(Math.max(0,l)) + s + ch.repeat(Math.max(0, n - l - s.length)); };
+const spaced = s => s.split(" ").map(w => w.split("").join(" ")).join("   ");
+
+function wrap(text, width){
+  text = String(text ?? "").replace(/\r/g,"");
+  if(!text) return [""];
+  const out = [];
+  text.split("\n").forEach(para => {
+    let line = "";
+    para.split(/ +/).forEach(word => {
+      while(word.length > width){
+        if(line){ out.push(line); line = ""; }
+        out.push(word.slice(0,width)); word = word.slice(width);
+      }
+      if(!line) line = word;
+      else if((line + " " + word).length <= width) line += " " + word;
+      else { out.push(line); line = word; }
+    });
+    out.push(line);
+  });
+  return out;
+}
+
+/* dates are stored ISO (YYYY-MM-DD), shown MM/DD/YYYY */
+function fmtDate(iso){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+  return m ? `${m[2]}/${m[3]}/${m[1]}` : (iso || "");
+}
+function parseDate(input){
+  const s = input.trim().toUpperCase();
+  if(s === "TODAY" || s === "T"){ const d = new Date(); return { ok:true, v: isoOf(d.getFullYear(), d.getMonth()+1, d.getDate()) }; }
+  let y, m, d, k;
+  if((k = /^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/.exec(s))) { y=+k[1]; m=+k[2]; d=+k[3]; }
+  else if((k = /^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2}|\d{4})$/.exec(s))) { m=+k[1]; d=+k[2]; y=+k[3]; if(k[3].length===2) y += (y <= (new Date().getFullYear()%100)) ? 2000 : 1900; }
+  else if((k = /^(\d{1,2})[-\/.](\d{4})$/.exec(s))) { m=+k[1]; d=1; y=+k[2]; }
+  else if((k = /^(\d{4})$/.exec(s))) { y=+k[1]; m=1; d=1; }
+  else return { ok:false, msg:"DATE NOT UNDERSTOOD. USE MM/DD/YYYY (OR TODAY)." };
+  const dt = new Date(y, m-1, d);
+  if(dt.getFullYear()!==y || dt.getMonth()!==m-1 || dt.getDate()!==d) return { ok:false, msg:"THAT DATE DOES NOT EXIST ON ANY CALENDAR I OWN." };
+  return { ok:true, v: isoOf(y,m,d) };
+}
+const isoOf = (y,m,d) => `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+function parseMoney(input){
+  const s = input.replace(/[$,\s]/g,"");
+  if(!/^\d*(\.\d{0,2})?$/.test(s) || s === "" || s === ".") return { ok:false, msg:"ENTER AN AMOUNT, E.G. 450 OR 1,295.00" };
+  return { ok:true, v: Number(s).toFixed(2) };
+}
+function fmtMoney(v){
+  if(v === "" || v == null) return "";
+  const n = Number(v); if(isNaN(n)) return String(v);
+  return "$" + n.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+const stamp = () => { const d = new Date(); return isoOf(d.getFullYear(), d.getMonth()+1, d.getDate()) + " " + [d.getHours(), d.getMinutes(), d.getSeconds()].map(x => String(x).padStart(2,"0")).join(":"); };
+const todayISO = () => { const d = new Date(); return isoOf(d.getFullYear(), d.getMonth()+1, d.getDate()); };
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CSV
+   ═══════════════════════════════════════════════════════════════════════ */
+function csvCell(v){
+  v = String(v ?? "");
+  return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v;
+}
+function repairsToCell(reps){
+  return (reps||[]).map(x => [x.date||"", (x.desc||"").replace(/\n/g," "), x.cost||""].join(" | ")).join("\n");
+}
+function cellToRepairs(cell){
+  if(!cell) return [];
+  return String(cell).split(/\r?\n/).filter(l => l.trim()).map(l => {
+    const p = l.split(" | ");
+    if(p.length < 3) return { date:"", desc:l.trim(), cost:"" };
+    return { date:p[0].trim(), cost:p[p.length-1].trim(), desc:p.slice(1,-1).join(" | ").trim() };
+  });
+}
+function toCSV(recs){
+  const lines = [CSV_COLS.join(",")];
+  recs.forEach(r => {
+    const row = CSV_COLS.map(c => {
+      if(c === "repairs") return csvCell(repairsToCell(r.repairs));
+      if(c === "status") return csvCell(isDisposed(r) ? "DISPOSED" : "HELD");
+      return csvCell(r[c]);
+    });
+    lines.push(row.join(","));
+  });
+  return "\uFEFF" + lines.join("\r\n") + "\r\n";
+}
+function parseCSV(text){
+  /* strict RFC-4180-style parser: rejects stray or unterminated quotes instead of guessing */
+  text = text.replace(/^\uFEFF/,"");
+  const rows = [];
+  let row = [], f = "", q = false, quoted = false, line = 1, rowLine = 1, quoteLine = 1;
+  const fail = msg => { throw new Error(`${msg} (CSV LINE ${line}, FIELD ${row.length + 1})`); };
+  for(let i = 0; i < text.length; i++){
+    const c = text[i];
+    if(q){
+      if(c === '"'){ if(text[i+1] === '"'){ f += '"'; i++; } else q = false; }
+      else { if(c === "\n") line++; f += c; }
+      continue;
+    }
+    if(c === '"'){
+      if(f !== "" || quoted) fail("STRAY QUOTE MARK INSIDE A FIELD");
+      q = true; quoted = true; quoteLine = line; continue;
+    }
+    if(c === ","){ row.push(f); f = ""; quoted = false; continue; }
+    if(c === "\n"){ row.push(f); rows.push({ cells:row, line:rowLine }); row = []; f = ""; quoted = false; line++; rowLine = line; continue; }
+    if(c === "\r") continue;
+    if(quoted){ if(c === " " || c === "\t") continue; fail("TEXT AFTER A CLOSING QUOTE"); }
+    f += c;
+  }
+  if(q) throw new Error(`A QUOTED FIELD STARTING ON CSV LINE ${quoteLine} IS NEVER CLOSED`);
+  if(f !== "" || row.length || quoted){ row.push(f); rows.push({ cells:row, line:rowLine }); }
+  return rows.filter(r => r.cells.some(x => x.trim() !== ""));
+}
+const ENUMS = { status:["HELD","DISPOSED"], type:CH_TYPE, acq_source:CH_SRC, disp_source:CH_SRC, acq_condition:CH_COND,
+  nfa_item:CH_NFA_ITEM, nfa_form:CH_NFA_FORM, nfa_registrant_type:CH_NFA_REG, nfa_status:CH_NFA_STATUS };
+const DATE_KEYS = ["acq_date","disp_date","disp_dob","nfa_submitted","nfa_approved"];
+const MONEY_KEYS = ["acq_cost","disp_price"];
+function validateRecord(r, line, warn){
+  const id = r.log_no ? `LOG #${r.log_no}` : `CSV LINE ${line}`;
+  for(const [k, list] of Object.entries(ENUMS)) if(r[k] && !list.includes(r[k])) warn(`${id}: ${k.toUpperCase()} "${r[k]}" IS NOT ONE OF ${list.join("/")}.`);
+  DATE_KEYS.forEach(k => { if(r[k] && !/^\d{4}-\d{2}-\d{2}$/.test(r[k])) warn(`${id}: ${k.toUpperCase()} "${r[k]}" IS NOT A DATE QUICKFIRE UNDERSTANDS.`); });
+  MONEY_KEYS.forEach(k => { if(r[k] && isNaN(Number(r[k]))) warn(`${id}: ${k.toUpperCase()} "${r[k]}" IS NOT AN AMOUNT.`); });
+  r.repairs.forEach((x, i) => {
+    if(x.date && !/^\d{4}-\d{2}-\d{2}$/.test(x.date)) warn(`${id}: REPAIR ${i+1} DATE "${x.date}" IS NOT A DATE QUICKFIRE UNDERSTANDS.`);
+    if(x.cost && isNaN(Number(x.cost))) warn(`${id}: REPAIR ${i+1} COST "${x.cost}" IS NOT AN AMOUNT.`);
+  });
+}
+/* parse + validate a whole ledger without touching S; errors block loading, warnings don't */
+function parseLedger(text){
+  const errors = [], warnings = [], records = [];
+  let rows;
+  try{ rows = parseCSV(text); }catch(e){ return { records, warnings, errors:[String(e.message || e).toUpperCase()] }; }
+  if(!rows.length) return { records, warnings, errors };
+  const norm = h => h.trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"");
+  const head = rows[0].cells.map(norm);
+  if(!head.includes("log_no")) errors.push("NO LOG_NO COLUMN IN THE HEADER ROW. THIS DOESN'T LOOK LIKE A QUICKFIRE LEDGER.");
+  const dupCols = head.filter((h, i) => h && head.indexOf(h) !== i);
+  if(dupCols.length) errors.push(`THE HEADER REPEATS ${[...new Set(dupCols)].join(", ").toUpperCase()}.`);
+  const unknown = head.filter(h => h && !CSV_COLS.includes(h));
+  if(unknown.length) warnings.push(`IGNORED UNKNOWN COLUMNS: ${unknown.join(", ").toUpperCase()}.`);
+  const missing = CSV_COLS.filter(c => !head.includes(c));
+  if(missing.length && head.includes("log_no")) warnings.push(`MISSING COLUMNS, LEFT BLANK: ${missing.join(", ").toUpperCase()}.`);
+  if(errors.length) return { records, warnings, errors };
+  const seen = new Map();
+  rows.slice(1).forEach(({ cells, line }) => {
+    if(cells.length > head.length && cells.slice(head.length).some(x => x.trim() !== ""))
+      errors.push(`CSV LINE ${line} HAS ${cells.length} FIELDS BUT THE HEADER HAS ${head.length}. A COMMA OR QUOTE IS PROBABLY OUT OF PLACE.`);
+    else if(cells.length < head.length) warnings.push(`CSV LINE ${line} HAS ONLY ${cells.length} OF ${head.length} FIELDS; THE REST WERE LEFT BLANK.`);
+    const r = blankRecord();
+    head.forEach((h, i) => {
+      if(h === "repairs") r.repairs = cellToRepairs(cells[i]);
+      else if(h in r) r[h] = (cells[i] ?? "").trim();
+    });
+    normalize(r);
+    validateRecord(r, line, m => warnings.push(m));
+    const key = String(r.log_no).trim().toUpperCase();
+    if(!key) warnings.push(`CSV LINE ${line} HAS NO LOG NUMBER.`);
+    else if(seen.has(key)) errors.push(`DUPLICATE LOG NUMBER ${r.log_no} ON CSV LINES ${seen.get(key)} AND ${line}.`);
+    else seen.set(key, line);
+    records.push(r);
+  });
+  return { records, warnings, errors };
+}
+function recordsFromCSV(text){
+  const res = parseLedger(text);
+  if(res.errors.length) throw new Error(res.errors[0]);
+  return res.records;
+}
+
+/* spreadsheets like to "help" with dates and currency; undo that on load */
+function normDate(v){ if(!v || /^\d{4}-\d{2}-\d{2}$/.test(v)) return v; const p = parseDate(v); return p.ok ? p.v : v; }
+function normMoney(v){ if(!v) return v; const p = parseMoney(v); return p.ok ? p.v : v; }
+function normalize(r){
+  ["acq_date","disp_date","disp_dob"].forEach(k => r[k] = normDate(r[k]));
+  ["acq_cost","disp_price"].forEach(k => r[k] = normMoney(r[k]));
+  ["status","type","acq_source","disp_source","acq_condition","nfa_item","nfa_form","nfa_registrant_type","nfa_status"].forEach(k => r[k] = (r[k]||"").toUpperCase());
+  ["nfa_submitted","nfa_approved"].forEach(k => r[k] = normDate(r[k]));
+  r.repairs.forEach(x => { x.date = normDate(x.date); x.cost = normMoney(x.cost); });
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RECORD SCREEN / EXPORT RENDERERS
+   ═══════════════════════════════════════════════════════════════════════ */
+function bannerBox(t, t2){
+  const inner = COLS - 2;
+  const mid = ["║" + center(t, inner) + "║"];
+  if(t2) mid.push("║" + center(t2, inner) + "║");
+  return ["╔" + "═".repeat(inner) + "╗", ...mid, "╚" + "═".repeat(inner) + "╝"];
+}
+function rule(t, ch="═", w=COLS){
+  if(!t) return ch.repeat(w);
+  return center(" " + t + " ", w, ch);
+}
+function kv(label, val, width){
+  const head = label + ": ";
+  const lines = wrap(val || "", Math.max(8, width - head.length));
+  return lines.map((ln,i) => (i ? " ".repeat(head.length) : head) + ln);
+}
+function pair(l1,v1,l2,v2){
+  const a = kv(l1,v1,38), b = l2 ? kv(l2,v2,40) : [];
+  const n = Math.max(a.length, b.length), out = [];
+  for(let i=0;i<n;i++) out.push((" " + pad(a[i]||"",38) + " " + (b[i]||"")).replace(/\s+$/,""));
+  return out;
+}
+function full(l,v){ return kv(l,v,COLS-1).map(x => (" " + x).replace(/\s+$/,"")); }
+
+function recordScreen(r){
+  const L = [];
+  L.push(...bannerBox(spaced("QUICKFIRE"), spaced("FIREARM LOG RECORD")));
+  L.push(rule("DESCRIPTION OF FIREARM"));
+  L.push(...pair("LOG NUMBER", r.log_no, "TYPE", typeOf(r)));
+  L.push(...pair("MANUFACTURER/IMPORTER", r.make, "MODEL", r.model));
+  L.push(...pair("YEAR", r.year, "CALIBER/GAUGE", r.caliber));
+  L.push(...pair("SERIAL NO", r.serial, "ACTION TYPE", r.action));
+  L.push(...pair("FINISH", r.finish, "BARREL", r.barrel));
+  L.push(...full("NOTES", r.notes));
+  if(isNFA(r)){
+    L.push(rule("NFA REGISTRATION"));
+    L.push(...pair("ITEM", r.nfa_item, "FORM", r.nfa_form));
+    L.push(...pair("REGISTERED TO", r.nfa_registrant_type, "STATUS", r.nfa_status));
+    L.push(...full("REGISTRANT", r.nfa_registrant));
+    L.push(...pair("SUBMITTED", fmtDate(r.nfa_submitted), "APPROVED", fmtDate(r.nfa_approved)));
+    L.push(...pair("TAX STAMP #", r.nfa_stamp, hasOAL(r) ? "OVERALL LENGTH" : "", hasOAL(r) ? r.nfa_oal : ""));
+  }
+  L.push(rule("RECEIVED"));
+  L.push(...pair("DATE", fmtDate(r.acq_date), "VIA", srcOf(r,"acq")));
+  L.push(...pair("CONDITION", r.acq_condition, "COST", fmtMoney(r.acq_cost)));
+  L.push(...full("FROM COMPANY/NAME", r.acq_name));
+  L.push(...full("FFL # or ADDRESS", r.acq_address));
+  L.push(rule("REPAIRS / MODIFICATIONS"));
+  if(!r.repairs || !r.repairs.length) L.push(" NONE ON RECORD");
+  else {
+    L.push(" " + pad("DATE",12) + pad("DESCRIPTION",54) + padL("COST",12));
+    L.push(" " + "─".repeat(78));
+    r.repairs.forEach((x,i) => {
+      const d = wrap(x.desc, 52);
+      d.forEach((ln,j) => L.push((" " + (j ? " ".repeat(12) : pad(fmtDate(x.date),12)) + pad(ln,54) + (j ? "" : padL(fmtMoney(x.cost),12))).replace(/\s+$/,"")));
+    });
+  }
+  if(isDisposed(r)){
+    L.push(rule("DISPOSED"));
+    L.push(...pair("DATE", fmtDate(r.disp_date), "VIA", srcOf(r,"disp")));
+    L.push(...pair("PRICE", fmtMoney(r.disp_price), "PHONE", r.disp_phone));
+    L.push(...full("TO NAME", r.disp_name));
+    L.push(...pair("ID #", r.disp_id, "D.O.B.", fmtDate(r.disp_dob)));
+    L.push(...full("OTHER", r.disp_other));
+    L.push(...full("ADDRESS", r.disp_address));
+  }
+  L.push(rule(isDisposed(r) ? "OUT OF POSSESSION" : "IN POSSESSION"));
+  return L.join("\n");
+}
+
+/* CP437 → 7-bit: what a printer with the high bit stripped did to box art */
+const CP437 = { "═":0xCD,"║":0xBA,"╔":0xC9,"╗":0xBB,"╚":0xC8,"╝":0xBC,"─":0xC4,"│":0xB3,"┌":0xDA,"┐":0xBF,"└":0xC0,"┘":0xD9,"├":0xC3,"┤":0xB4,"┬":0xC2,"┴":0xC1,"┼":0xC5,"█":0xDB,"░":0xB0,"▒":0xB1,"▓":0xB2 };
+function to7bit(s){
+  return Array.from(s).map(ch => {
+    if(CP437[ch] !== undefined) return String.fromCharCode(CP437[ch] & 0x7F);
+    const c = ch.charCodeAt(0);
+    return c < 128 ? ch : "?";
+  }).join("");
+}
+
+function ledgerText(recs){
+  const cols = [["LOG#",6],["TYPE",8],["MAKE",15],["MODEL",15],["CAL/GA",9],["SERIAL",14],["ACQUIRED",10],["FROM",16],["COST",10],["DISPOSED",10],["TO",13]];
+  const W = cols.reduce((a,c) => a + c[1], 0) + cols.length - 1;
+  const row = vals => cols.map((c,i) => (c[0]==="COST" ? padL(vals[i], c[1]) : pad(cut(vals[i], c[1]), c[1]))).join(" ").replace(/\s+$/,"");
+  const L = [];
+  L.push(center(spaced("QUICKFIRE"), W));
+  L.push(center("F I R E A R M   L E D G E R", W));
+  L.push(center(`${recs.length} RECORD${recs.length===1?"":"S"}   PRINTED ${fmtDate(todayISO())}`, W));
+  L.push("=".repeat(W));
+  L.push(row(cols.map(c => c[0])));
+  L.push("-".repeat(W));
+  recs.forEach(r => L.push(row([r.log_no, typeOf(r, true), r.make, r.model, r.caliber, r.serial, fmtDate(r.acq_date), r.acq_name, fmtMoney(r.acq_cost), fmtDate(r.disp_date), r.disp_name])));
+  L.push("=".repeat(W));
+  const tot = recs.reduce((a,r) => a + (Number(r.acq_cost)||0), 0);
+  const s = { n: recs.length, d: recs.filter(isDisposed).length };
+  L.push(`HELD: ${s.n - s.d}   DISPOSED: ${s.d}   TOTAL ACQUISITION COST: ${fmtMoney(tot.toFixed(2))}`);
+  return L.join("\n");
+}
+function screensText(recs, sevenBit){
+  const perf = "- ".repeat(40).trimEnd();
+  const body = recs.map(recordScreen).join(sevenBit ? `\n\n${perf}\n\n` : "\n\n\n");
+  return (sevenBit ? to7bit(body) : body) + "\n";
+}
+function cleanText(recs){
+  const cols = [["LOG", r => r.log_no], ["MAKE", r => r.make], ["MODEL", r => r.model], ["CAL.", r => r.caliber], ["SERIAL", r => r.serial]];
+  const w = cols.map(([h,f]) => Math.max(h.length, ...recs.map(r => String(f(r) || "").length)));
+  const row = vals => vals.map((v,i) => pad(v || "", w[i])).join("  ").replace(/\s+$/,"");
+  const W = Math.max(w.reduce((a,b) => a + b, 0) + 2 * (w.length - 1), 40);
+  const L = [];
+  L.push(center(spaced("QUICKFIRE"), W).trimEnd());
+  L.push(center(`CLEAN LIST   ${recs.length} RECORD${recs.length===1?"":"S"}   PRINTED ${fmtDate(todayISO())}`, W).trimEnd());
+  L.push("=".repeat(W));
+  L.push(row(cols.map(c => c[0])));
+  L.push("-".repeat(W));
+  recs.forEach(r => L.push(row(cols.map(([,f]) => f(r)))));
+  L.push("=".repeat(W));
+  return L.join("\n");
+}
+function jsonText(recs){
+  return JSON.stringify({ generator:`QUICKFIRE v${VERSION}`, exported: todayISO(), records: recs.map(r => {
+    const o = {}; CSV_COLS.forEach(c => { o[c] = c === "repairs" ? r.repairs : c === "status" ? (isDisposed(r) ? "DISPOSED" : "HELD") : r[c]; });
+    return o;
+  }) }, null, 2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TERMINAL
+   ═══════════════════════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+const out = $("out"), inp = $("in"), psEl = $("ps"), typedEl = $("typed");
+
+function cls(){ out.innerHTML = ""; }
+function ln(html){
+  const d = document.createElement("div");
+  d.className = "ln";
+  d.innerHTML = html || "";
+  out.appendChild(d);
+  while(out.childElementCount > 1500) out.removeChild(out.firstChild);
+  out.scrollTop = out.scrollHeight;
+  return d;
+}
+function raw(text, cls){ String(text).split("\n").forEach(l => ln(cls ? `<span class="${cls}">${esc(l)}</span>` : esc(l))); }
+function say(text, cls){
+  const m = /^ */.exec(text)[0].length, ind = " ".repeat(Math.max(1, m));
+  wrap(String(text).slice(m), COLS - 1 - ind.length).forEach(l => ln(`<span class="${cls||""}">${esc(ind + l)}</span>`));
+}
+function blank(){ ln(""); }
+function opt(cmd, key, label){ return `<a class="opt" role="button" tabindex="0" data-cmd="${esc(cmd)}">[${esc(key)}]</a> ${esc(label)}`; }
+function opts(list, indent=" ", gap="  "){
+  /* list of [cmd,key,label]; packs onto lines ≤ 80 cols */
+  let line = indent, len = indent.length, html = indent;
+  const lines = [];
+  list.forEach(([c,k,l]) => {
+    const w = k.length + 3 + l.length;
+    if(len > indent.length && len + gap.length + w > COLS){ lines.push(html); html = indent; len = indent.length; }
+    if(len > indent.length){ html += gap; len += gap.length; }
+    html += opt(c,k,l); len += w;
+  });
+  lines.push(html);
+  lines.forEach(h => ln(h));
+}
+function menuList(list){ list.forEach(([c,k,l]) => ln(" " + opt(c,k,l))); }
+function err(msg){ ln(`<span class="inv">${esc(" " + msg + " ")}</span>`); beep(220, .12); }
+function ok(msg){ say(msg); }
+
+/* screen readers hear the last few lines and the prompt, not the whole scrollback */
+function announce(){
+  const lines = [...out.querySelectorAll(".ln")].slice(-4).map(d => d.textContent.trim()).filter(Boolean);
+  $("sr").textContent = lines.join(". ") + ". " + psEl.textContent;
+}
+function ask(ps, handler, hint){
+  psEl.textContent = ps + " ";
+  setTimeout(announce, 0);
+  S.handler = handler;
+  if(hint !== undefined) S.hint = hint;
+  renderStatus();
+  renderTyped();
+  focusIn();
+}
+function focusIn(){ if(document.activeElement !== inp) inp.focus({ preventScroll:true }); }
+
+function renderTyped(){
+  const v = inp.value, p = inp.selectionStart ?? v.length;
+  const before = v.slice(0,p), at = v.slice(p,p+1), after = v.slice(p+1);
+  typedEl.innerHTML = esc(before) + (at ? `<span class="cursor over">${esc(at)}</span>` : `<span class="cursor"></span>`) + esc(after);
+}
+function submit(text){
+  const ps = psEl.textContent;
+  ln(`<span class="dim">${esc(ps)}</span>${esc(text)}`);
+  if(text.trim()){ S.history.push(text); if(S.history.length > 100) S.history.shift(); }
+  S.hIdx = S.history.length;
+  inp.value = ""; renderTyped();
+  const h = S.handler;
+  if(h) h(text);
+}
+
+/* status + top bars */
+function renderTop(){
+  const d = new Date();
+  const ts = `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}-${d.getFullYear()}  ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+  $("topbar").textContent = pad(" QUICKFIRE  v" + VERSION, COLS - ts.length - 1) + ts + " ";
+}
+function renderStatus(){
+  const s = stats();
+  const right = `RECS ${s.n}  HELD ${s.h} │ ${(S.fileName || "UNSAVED").toUpperCase()}${S.dirty ? " *" : ""}${autoOn() ? " AUTO" : ""} `;
+  const left = " " + (S.hint || "F1 HELP  F2 SAVE  F3 NEW  ESC MENU");
+  $("statusbar").textContent = pad(left.slice(0, COLS - right.length - 2), COLS - right.length) + right;
+}
+
+/* PC speaker */
+let actx = null;
+function beep(freq=880, dur=.07){
+  if(!S.sound) return;
+  try{
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = "square"; o.frequency.value = freq;
+    g.gain.value = .035;
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + dur);
+  }catch(e){}
+}
+
+/* fit 80 columns to the tube */
+function fit(){
+  const tube = $("tube");
+  const w = tube.clientWidth;
+  // first guess: 80 cols at 0.5625em, plus 1em padding per side and a thin scrollbar
+  let fs = Math.max(10, Math.min(30, Math.floor((w - 14) / (COLS * 0.5625 + 2))));
+  // glyph advances round to whole pixels, so measure and step down until 80 columns fit
+  const probe = document.createElement("span");
+  probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre";
+  probe.textContent = "═".repeat(COLS);
+  out.appendChild(probe);
+  const root = document.documentElement.style;
+  root.setProperty("--fs", fs + "px");
+  while(fs > 10 && probe.getBoundingClientRect().width > out.clientWidth - 2){ fs--; root.setProperty("--fs", fs + "px"); }
+  probe.remove();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PERSISTENCE
+   ═══════════════════════════════════════════════════════════════════════ */
+function markDirty(){
+  S.revision++;
+  S.dirty = true;
+  stash();
+  renderStatus();
+  if(autoOn()) autoWrite();
+}
+function markLoaded(){ S.revision = 0; S.savedRevision = 0; S.dirty = false; }
+const autoOn = () => !!(S.fileHandle && S.autosave);
+/* every write to disk goes through one queue, so autosave and F2 can't overlap */
+function queueWrite(fn){
+  const p = S.writeChain.then(fn).then(() => true, e => { S.lastWriteError = e; return false; });
+  S.writeChain = p;
+  return p;
+}
+async function writeFile(h, csv){
+  if(h.queryPermission && (await h.queryPermission({ mode:"readwrite" })) !== "granted"){
+    if((await h.requestPermission({ mode:"readwrite" })) !== "granted") throw new Error("PERMISSION REFUSED");
+  }
+  const w = await h.createWritable();
+  await w.write(csv); await w.close();
+}
+/* a write only marks the ledger clean up to the revision it actually contained */
+function noteSaved(rev){
+  S.savedRevision = Math.max(S.savedRevision, rev);
+  S.dirty = S.savedRevision < S.revision;
+  stash(); renderStatus();
+}
+function autoWrite(){
+  const h = S.fileHandle, rev = S.revision, csv = toCSV(S.records);
+  queueWrite(() => writeFile(h, csv)).then(ok => {
+    if(h !== S.fileHandle) return;            // a different ledger was opened meanwhile
+    if(ok) noteSaved(rev);
+    else { S.dirty = true; renderStatus(); err(`COULD NOT WRITE TO ${S.fileName.toUpperCase()}. PRESS F2 TO SAVE BY HAND.`); }
+  });
+}
+function recordedNote(prefix){
+  return prefix + (autoOn() ? ` WRITING TO ${S.fileName.toUpperCase()}.` : " PRESS F2 TO SAVE THE LEDGER TO DISK.");
+}
+const RECOVERY_PREF = "quickfire:recovery-off";
+function stash(){
+  if(!S.recovery) return;
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({ v:1, savedAt: new Date().toISOString(), fileName: S.fileName, csv: toCSV(S.records), dirty: S.dirty }));
+    S.stashOK = true;
+  }catch(e){
+    S.stashOK = false;
+    if(!S.stashWarned){ S.stashWarned = true; err("THIS BROWSER WON'T HOLD A RECOVERY COPY. SAVE OFTEN; UNSAVED CHANGES WILL BE LOST IF THE TAB CLOSES."); }
+  }
+}
+function unstash(){
+  try{
+    const j = localStorage.getItem(STORE_KEY);
+    if(!j) return null;
+    const o = JSON.parse(j);
+    if(!o || o.v !== 1 || typeof o.csv !== "string") return { unreadable:true };
+    return o;
+  }catch(e){ return { unreadable:true }; }
+}
+function dropStash(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} }
+function loadRecoveryPref(){
+  try{
+    S.recovery = localStorage.getItem(RECOVERY_PREF) !== "1";
+    const probe = "quickfire:probe"; localStorage.setItem(probe, "1"); localStorage.removeItem(probe);
+    S.stashOK = true;
+  }catch(e){ S.stashOK = false; }
+}
+function setRecovery(on){
+  S.recovery = on;
+  try{ if(on) localStorage.removeItem(RECOVERY_PREF); else localStorage.setItem(RECOVERY_PREF, "1"); }catch(e){}
+  if(on) stash(); else dropStash();
+}
+
+function download(name, text, type="text/plain"){
+  const blob = new Blob([text], { type: type + ";charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+
+async function saveLogbook(saveAs, then){
+  const suggested = (S.fileName || "quickfire-ledger.csv").toLowerCase();
+  const done = () => { renderStatus(); if(then) then(); };
+  if(window.showSaveFilePicker){
+    let h = S.fileHandle;
+    try{
+      if(!h || saveAs) h = await window.showSaveFilePicker({ suggestedName: suggested, types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
+    }catch(e){
+      if(e && e.name === "AbortError"){ say(S.dirty ? "SAVE CANCELLED. THE INK IS STILL WET." : "SAVE CANCELLED."); return done(); }
+      h = null;
+    }
+    if(h){
+      const rev = S.revision, csv = toCSV(S.records);
+      if(await queueWrite(() => writeFile(h, csv))){
+        S.fileHandle = h; S.fileName = h.name;
+        noteSaved(rev);
+        ok(`LEDGER WRITTEN TO ${S.fileName.toUpperCase()}  (${S.records.length} RECORD${S.records.length===1?"":"S"})`);
+        beep(1320,.05);
+        return done();
+      }
+      err(`COULD NOT WRITE TO ${h.name.toUpperCase()}. DOWNLOADING A COPY INSTEAD.`);
+    }
+  }
+  const rev = S.revision;
+  download(suggested, toCSV(S.records), "text/csv");
+  S.fileName = suggested;
+  noteSaved(rev);
+  ok(`DOWNLOAD STARTED: ${suggested.toUpperCase()}. CHECK YOUR DOWNLOADS FOLDER. THIS BROWSER CAN'T WRITE IN PLACE, SO EACH SAVE IS A NEW COPY.`);
+  done();
+}
+
+function confirmDiscard(action, proceed){
+  const back = S.screen || goMenu;
+  blank();
+  say(`THE CURRENT LEDGER HAS UNSAVED CHANGES. ${action} WILL DISCARD THEM.`);
+  opts([["Y","Y","DISCARD THEM"],["N","N","KEEP WORKING"]]);
+  ask("DISCARD?", v => { if(/^Y/i.test(v.trim())) proceed(); else back(); }, "Y DISCARD  N CANCEL");
+}
+async function openLogbook(allowDiscard){
+  if(S.dirty && !allowDiscard) return confirmDiscard("OPENING ANOTHER LEDGER", () => openLogbook(true));
+  if(window.showOpenFilePicker){
+    try{
+      const [h] = await window.showOpenFilePicker({ types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
+      const f = await h.getFile();
+      loadText(await f.text(), f.name, h);
+      return;
+    }catch(e){
+      if(e && e.name === "AbortError"){ say("NOTHING OPENED. THE CURRENT LEDGER IS UNCHANGED."); return; }
+    }
+  }
+  $("filepick").click();
+  say("CHOOSE A .CSV FILE IN THE DIALOG, OR DROP ONE ONTO THE SCREEN.");
+}
+/* the only place a ledger is replaced: validate first, touch S only on success */
+function loadText(text, name, handle){
+  const res = parseLedger(text);
+  if(res.errors.length){
+    err(`COULD NOT LOAD ${name.toUpperCase()}. NOTHING WAS CHANGED.`);
+    res.errors.slice(0, 6).forEach(m => say("  " + m));
+    if(res.errors.length > 6) say(`  ...AND ${res.errors.length - 6} MORE.`);
+    return false;
+  }
+  S.records = res.records; S.fileName = name; S.fileHandle = handle || null;
+  markLoaded(); stash();
+  goMenu(`OPENED ${name.toUpperCase()}: ${res.records.length} RECORD${res.records.length===1?"":"S"} READ.` +
+    (handle ? "" : window.showSaveFilePicker ? " NOT BOUND: F2 WILL ASK WHERE TO WRITE." : " SAVES WILL DOWNLOAD A NEW COPY."));
+  if(res.warnings.length){
+    say(`${res.warnings.length} WARNING${res.warnings.length===1?"":"S"}:`, "dim");
+    res.warnings.slice(0, 5).forEach(m => say("  " + m, "dim"));
+    if(res.warnings.length > 5) say(`  ...AND ${res.warnings.length - 5} MORE. TYPE CHECK TO SEE THEM ALL.`, "dim");
+  }
+  S.lastWarnings = res.warnings;
+  beep(1320,.05);
+  return true;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL VERBS (work from menu, rack and record screens)
+   ═══════════════════════════════════════════════════════════════════════ */
+function findLog(token){
+  const t = String(token).replace(/^#/,"").trim().toUpperCase();
+  if(!t) return null;
+  return S.records.find(r => String(r.log_no).toUpperCase() === t)
+      || S.records.find(r => /^\d+$/.test(t) && parseInt(r.log_no,10) === parseInt(t,10));
+}
+function globalVerb(input){
+  const v = input.trim(); const U = v.toUpperCase();
+  const [verb, ...rest] = U.split(/\s+/); const arg = v.split(/\s+/).slice(1).join(" ");
+  switch(verb){
+    case "HELP": case "?": case "H": showHelp(); return true;
+    case "MENU": case "M": case "VAULT": goMenu(); return true;
+    case "LOOK": case "L": if(S.screen) S.screen(); return true;
+    case "NEW": case "ADD": case "TAKE": case "GET": startWizard(blankRecord(), true); return true;
+    case "BROWSE": case "LIST": case "RACK": case "INVENTORY": case "INV": case "I": browse({ page:0 }); return true;
+    case "SEARCH": case "FIND":
+      if(arg){ browse({ q: arg, page:0 }); } else askSearch(); return true;
+    case "EXAMINE": case "X": case "READ": {
+      const r = findLog(arg);
+      if(!arg){ say("EXAMINE WHICH LOG NUMBER?"); return true; }
+      if(r) viewRecord(r); else err(`NO LOG #${arg.toUpperCase()} IN THIS LEDGER.`);
+      return true;
+    }
+    case "DROP": case "SELL": case "DISPOSE": {
+      const r = findLog(arg);
+      if(!arg){ say("DROP WHICH LOG NUMBER? (THIS RECORDS A DISPOSITION.)"); return true; }
+      if(r) startWizard(r, false, { jump:"_possess", disposed:true }); else err(`NO LOG #${arg.toUpperCase()} IN THIS LEDGER.`);
+      return true;
+    }
+    case "SAVE": saveLogbook(rest[0] === "AS"); return true;
+    case "OPEN": case "LOAD": case "RESTORE": openLogbook(); return true;
+    case "EXPORT": case "PRINT": case "OUTPUT": exportStart(null); return true;
+    case "RECOVERY":
+      setRecovery(!S.recovery);
+      say(S.recovery ? (S.stashOK ? "RECOVERY COPY ON. A PLAINTEXT COPY OF THE LEDGER IS KEPT IN THIS BROWSER'S LOCAL STORAGE." : "RECOVERY COPY ON, BUT THIS BROWSER IS REFUSING TO STORE IT.")
+                     : "RECOVERY COPY OFF AND ERASED. NOTHING IS KEPT IN THIS BROWSER; UNSAVED CHANGES ARE LOST IF THE TAB CLOSES.");
+      return true;
+    case "CHECK": {
+      const w = S.lastWarnings || [];
+      if(!w.length) say("NO WARNINGS FROM THE LAST FILE OPENED.");
+      else { say(`${w.length} WARNING${w.length===1?"":"S"} FROM THE LAST FILE OPENED:`); w.forEach(m => say("  " + m, "dim")); }
+      return true;
+    }
+    case "AUTOSAVE": case "AUTO":
+      S.autosave = !S.autosave; renderStatus();
+      if(!S.autosave) say("AUTOSAVE OFF. CHANGES STAY IN THE PROGRAM UNTIL YOU PRESS F2.");
+      else if(S.fileHandle){ say(`AUTOSAVE ON. CHANGES ARE WRITTEN TO ${S.fileName.toUpperCase()} AS YOU MAKE THEM.`); if(S.dirty) autoWrite(); }
+      else say(window.showSaveFilePicker ? "AUTOSAVE ON. IT STARTS ONCE THE LEDGER IS BOUND TO A FILE: PRESS F2 AND CHOOSE ONE." : "AUTOSAVE ON, BUT THIS BROWSER CAN'T WRITE TO FILES IN PLACE. USE CHROME OR EDGE, OR PRESS F2 TO DOWNLOAD A COPY.");
+      return true;
+    case "SOUND": S.sound = !S.sound; say("SPEAKER " + (S.sound ? "ON." : "OFF.")); beep(); return true;
+    case "CLS": case "CLEAR": cls(); return true;
+    case "XYZZY": case "PLUGH": say("NOTHING HAPPENS. THIS IS NOT THAT KIND OF CAVE."); return true;
+    case "GO": case "NORTH": case "SOUTH": case "EAST": case "WEST": case "UP": case "DOWN": case "NE": case "NW": case "SE": case "SW":
+      say("THE ONLY EXIT IS THE DOOR YOU CAME IN BY, AND IT IS ON A TIME LOCK."); return true;
+    case "QUIT": case "EXIT": case "BYE":
+      if(S.dirty) say("THE INK IS STILL WET. SAVE FIRST, OR THESE CHANGES LIVE ONLY IN THIS BROWSER'S WORKING COPY.");
+      else { blank(); say("IT IS NOW SAFE TO TURN OFF YOUR COMPUTER."); }
+      return true;
+    case "ABOUT": case "VER": case "VERSION": showAbout(); return true;
+  }
+  return false;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MAIN MENU — THE VAULT
+   ═══════════════════════════════════════════════════════════════════════ */
+function goMenu(notice){
+  S.screen = () => goMenu();
+  W = null;
+  cls();
+  raw(bannerBox(spaced("QUICKFIRE")).join("\n"));
+  raw(center("FIREARM INVENTORY RECORD SYSTEM", COLS), "dim");
+  ln("");
+  const s = stats();
+  if(!s.n){
+    say("YOU ARE IN THE VAULT. THE RACKS ARE BARE AND THE LEDGER ON THE STEEL BENCH IS BLANK. EITHER YOU ARE JUST GETTING STARTED, OR YOU ARE VERY DISCREET.");
+  } else {
+    const last = S.records.reduce((a,r) => (String(r.log_no).localeCompare(String(a.log_no), undefined, { numeric:true }) > 0 ? r : a), S.records[0]);
+    say(`YOU ARE IN THE VAULT. THE LEDGER ON THE STEEL BENCH RECORDS ${s.n} FIREARM${s.n===1?"":"S"}: ${s.h} IN YOUR KEEPING, ${s.d} GONE TO OTHER HANDS. THE MOST RECENT ENTRY IS #${last.log_no}, ${articled([last.make, last.model].filter(Boolean).join(" ") || typeOf(last) || "UNDESCRIBED ITEM")}.`);
+  }
+  blank();
+  const wet = S.dirty ? " THE INK ON THE LAST PAGE IS STILL WET. PRESS F2 TO SAVE." : "";
+  if(S.fileHandle) say(`THE LEDGER IS BOUND TO ${S.fileName.toUpperCase()}.` + (autoOn() ? " CHANGES ARE WRITTEN TO IT AS YOU MAKE THEM." : wet));
+  else if(S.fileName) say(`LAST OPENED OR SAVED AS ${S.fileName.toUpperCase()}, BUT NOT BOUND TO IT.` + (window.showSaveFilePicker ? " F2 WILL ASK WHERE TO WRITE." : " EACH SAVE DOWNLOADS A NEW COPY.") + wet);
+  else if(s.n) say("THE LEDGER HAS NOT YET BEEN BOUND TO A FILE. SAVE IT BEFORE YOU WANDER OFF.");
+  if(S.recovery && !S.stashOK) say("WARNING: THIS BROWSER WON'T HOLD A RECOVERY COPY. SAVE OFTEN.", "dim");
+  MENU_ART.split("\n").forEach(l => { const d = ln(`<span class="art">${esc(l)}</span>`); d.style.textAlign = "center"; d.style.fontSize = ".9em"; });
+  say("WHAT NOW?");
+  menuList([
+    ["1","1","LOG A NEW FIREARM"],
+    ["2","2","BROWSE THE RACK"],
+    ["3","3","SEARCH THE LEDGER"],
+    ["4","4","OPEN A LEDGER FILE (.CSV)"],
+    ["5","5","SAVE THE LEDGER"],
+    ["6","6","EXPORT OR PRINT"],
+    ["7","7","HELP"],
+    ["8","8","START A FRESH LEDGER"],
+  ]);
+  if(notice){ blank(); say(notice); }
+  blank();
+  ask("VAULT>", menuInput, "");
+}
+function articled(s){ s = s.toUpperCase(); return (/^[AEIOU]/.test(s) ? "AN " : "A ") + s; }
+function menuInput(v){
+  const U = v.trim().toUpperCase();
+  switch(U){
+    case "1": return startWizard(blankRecord(), true);
+    case "2": return browse({ page:0, q:"" });
+    case "3": return askSearch();
+    case "4": return openLogbook();
+    case "5": return saveLogbook(false);
+    case "6": return exportStart(null);
+    case "7": return showHelp();
+    case "8": return freshLedger();
+    case "": return goMenu();
+  }
+  if(!globalVerb(v)) { err("I DON'T KNOW HOW TO " + U.split(" ")[0] + ". TRY A NUMBER, OR HELP."); }
+}
+function freshLedger(){
+  if(S.dirty || S.records.length){
+    say(S.dirty ? "THE CURRENT LEDGER HAS UNSAVED CHANGES. A FRESH LEDGER DISCARDS THEM." : "CLOSE THIS LEDGER AND START A BLANK ONE? (THE FILE ON DISK IS UNTOUCHED.)");
+    opts([["Y","Y","START FRESH"],["N","N","KEEP THIS ONE"]]);
+    ask("FRESH?", v => {
+      if(/^Y/i.test(v)){ S.records = []; S.fileName = ""; S.fileHandle = null; markLoaded(); dropStash(); goMenu("A CLEAN LEDGER. THE PAGES SMELL OF NOTHING YET."); }
+      else goMenu();
+    }, "Y START FRESH  N CANCEL");
+  } else goMenu("THE LEDGER IS ALREADY BLANK.");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ENTRY WIZARD — the pick-a-path part
+   ═══════════════════════════════════════════════════════════════════════ */
+const SECT = {
+  desc: { title:"DESCRIPTION OF FIREARM", flavor: w => w.isNew
+    ? "A NEW ARRIVAL. YOU SET IT ON THE BENCH, CLEAR IT TWICE, AND OPEN THE LEDGER TO A BLANK PAGE."
+    : `YOU PULL THE PAGE FOR LOG #${w.rec.log_no} AND UNCAP YOUR PEN.` },
+  acq:  { title:"RECEIVED", flavor: () => "PROVENANCE. EVERY FIREARM CAME FROM SOMEWHERE, AND THE LEDGER WANTS TO KNOW WHERE." },
+  nfa:  { title:"NFA REGISTRATION", flavor: () => "THE GOVERNMENT KEEPS ITS OWN LEDGER ON THIS ONE. YOURS SHOULD AGREE WITH IT." },
+  rep:  { title:"REPAIRS / MODIFICATIONS", flavor: () => "THE PARTS BIN REMEMBERS EVERYTHING. THE LEDGER SHOULD TOO." },
+  disp: { title:"DISPOSITION", flavor: () => "" },
+};
+const STEPS = [
+  { sec:"desc", key:"log_no",   q:"LOG NUMBER", ps:"LOG#", req:true },
+  { sec:"desc", key:"type",     q:"TYPE OF FIREARM", ps:"TYPE", choices:CH_TYPE },
+  { sec:"desc", key:"nfa_item", q:"WHAT KIND OF NFA ITEM?", ps:"ITEM", choices:CH_NFA_ITEM, when:isNFA },
+  { sec:"desc", key:"type_other", q:"WHAT KIND OF OTHER?", ps:"TYPE", hint:"E.G. MUZZLELOADER, RECEIVER ONLY, FLARE GUN", when:r => r.type === "OTHER" },
+  { sec:"desc", key:"make",     q:"MANUFACTURER/IMPORTER", ps:"MAKE" },
+  { sec:"desc", key:"model",    q:"MODEL", ps:"MODEL" },
+  { sec:"desc", key:"year",     q:"YEAR OF MANUFACTURE", ps:"YEAR", hint:"A YEAR, A RANGE, OR \"C.1920\" ALL WORK" },
+  { sec:"desc", key:"caliber",  q:r => r.type === "SHOTGUN" || (isNFA(r) && r.nfa_item === "SBS") ? "GAUGE" : "CALIBER", ps:"CAL" },
+  { sec:"desc", key:"serial",   q:"SERIAL NUMBER", ps:"SERIAL" },
+  { sec:"desc", key:"action",   q:"ACTION TYPE", ps:"ACTION", hint:"BOLT, LEVER, PUMP, SEMI-AUTO, REVOLVER, BREAK, SINGLE SHOT...", when:r => !isSuppressor(r) },
+  { sec:"desc", key:"finish",   q:"FINISH", ps:"FINISH", hint:"BLUED, PARKERIZED, NICKEL, STAINLESS, CERAKOTE..." },
+  { sec:"desc", key:"barrel",   q:"BARREL", ps:"BARREL", hint:"LENGTH, PROFILE, TWIST, CONTOUR...", when:r => !isSuppressor(r) },
+  { sec:"desc", key:"notes",    q:"NOTES", ps:"NOTES", hint:"MARKINGS, ACCESSORIES, HISTORY, WHATEVER YOU'LL WANT LATER" },
+  { sec:"nfa",  key:"nfa_form", q:"WHICH ATF FORM?", ps:"FORM", choices:CH_NFA_FORM, hint:"FORM 4 = TRANSFER, FORM 1 = MAKE, FORM 5 = TAX-EXEMPT (E.G. INHERITANCE)", when:isNFA },
+  { sec:"nfa",  key:"nfa_registrant_type", q:"REGISTERED TO", ps:"REG", choices:CH_NFA_REG, when:isNFA },
+  { sec:"nfa",  key:"nfa_registrant", q:r => r.nfa_registrant_type === "INDIVIDUAL" ? "REGISTRANT'S NAME" : "NAME OF THE " + (r.nfa_registrant_type || "REGISTRANT"), ps:"NAME", when:isNFA },
+  { sec:"nfa",  key:"nfa_status", q:"STATUS", ps:"STATUS", choices:CH_NFA_STATUS, when:isNFA },
+  { sec:"nfa",  key:"nfa_submitted", q:"DATE SUBMITTED", ps:"DATE", type:"date", when:isNFA },
+  { sec:"nfa",  key:"nfa_approved", q:"DATE APPROVED", ps:"DATE", type:"date", when:r => isNFA(r) && r.nfa_status !== "PENDING" },
+  { sec:"nfa",  key:"nfa_stamp", q:"TAX STAMP SERIAL", ps:"STAMP#", when:r => isNFA(r) && r.nfa_status !== "PENDING" },
+  { sec:"nfa",  key:"nfa_oal", q:"OVERALL LENGTH", ps:"OAL", hint:"AS MEASURED FOR THE REGISTRATION, E.G. 25.5\"", when:hasOAL },
+  { sec:"acq",  key:"acq_source", q:"HOW DID IT COME TO YOU?", ps:"VIA", choices:CH_SRC },
+  { sec:"acq",  key:"acq_source_other", q:"OTHER HOW?", ps:"VIA", hint:"INHERITANCE, GIFT, AUCTION, TRADE...", when:r => r.acq_source === "OTHER" },
+  { sec:"acq",  key:"acq_date", q:"DATE RECEIVED", ps:"DATE", type:"date" },
+  { sec:"acq",  key:"acq_condition", q:"CONDITION", ps:"COND", choices:CH_COND },
+  { sec:"acq",  key:"acq_name", q:"FROM COMPANY/NAME", ps:"FROM" },
+  { sec:"acq",  key:"acq_cost", q:"COST", ps:"COST", type:"money" },
+  { sec:"acq",  key:"acq_address", q:"FFL # OR ADDRESS", ps:"ADDR" },
+  { sec:"rep",  key:"_repairs", kind:"repairs" },
+  { sec:"disp", key:"_possess", kind:"possess" },
+  { sec:"disp", key:"disp_source", q:"HOW DID IT LEAVE?", ps:"VIA", choices:CH_SRC, when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_source_other", q:"OTHER HOW?", ps:"VIA", hint:"GIFT, TRADE, CONSIGNMENT, SURRENDER, LOSS...", when:(r,w) => w.disposed && r.disp_source === "OTHER" },
+  { sec:"disp", key:"disp_date",  q:"DATE OF DISPOSITION", ps:"DATE", type:"date", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_price", q:"PRICE", ps:"PRICE", type:"money", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_name",  q:"TO NAME", ps:"NAME", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_id",    q:"ID #", ps:"ID#", hint:"DRIVER'S LICENSE, STATE ID, FFL...", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_phone", q:"PHONE", ps:"PHONE", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_dob",   q:"D.O.B.", ps:"DOB", type:"date", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_other", q:"OTHER", ps:"OTHER", hint:"PERMIT #, BACKGROUND CHECK #, DEALER, WITNESS...", when:(r,w) => w.disposed },
+  { sec:"disp", key:"disp_address", q:"ADDRESS", ps:"ADDR", when:(r,w) => w.disposed },
+];
+const WIZ_HINT = "ENTER KEEP  - CLEAR  BACK PREV  ABORT";
+let W = null;
+
+function startWizard(rec, isNew, o={}){
+  W = { orig: isNew ? null : rec, rec: clone(rec), isNew, i:0, disposed: o.disposed ?? isDisposed(rec), rp:null, seen:new Set() };
+  if(isNew){ W.rec.log_no = nextLogNo(); }
+  if(o.jump){ W.i = STEPS.findIndex(s => s.key === o.jump); STEPS.slice(0, W.i).forEach(s => W.seen.add(s.sec)); }
+  S.screen = () => { cls(); askStep(0); };
+  cls();
+  raw(rule(isNew ? "NEW ENTRY" : `AMEND LOG #${rec.log_no}`));
+  say("ENTER KEEPS THE VALUE IN [BRACKETS]. TYPE - TO STRIKE IT OUT, BACK FOR THE PREVIOUS FIELD, ABORT TO WALK AWAY. CLICKING A [CHOICE] WORKS TOO.", "dim");
+  askStep(1);
+}
+const visible = s => !s.when || s.when(W.rec, W);
+function curDisplay(s){
+  const v = W.rec[s.key];
+  if(!v) return "";
+  if(s.type === "date") return fmtDate(v);
+  if(s.type === "money") return fmtMoney(v);
+  if(s.key === "log_no" && W.isNew) return v + " (NEXT IN SEQUENCE)";
+  return v;
+}
+function askStep(dir){
+  if(dir === 0) dir = 1;
+  while(W.i >= 0 && W.i < STEPS.length && !visible(STEPS[W.i])) W.i += dir;
+  if(W.i < 0){ W.i = 0; return askStep(1); }
+  if(W.i >= STEPS.length) return review();
+  const s = STEPS[W.i];
+  if(!W.seen.has(s.sec)){
+    W.seen.add(s.sec);
+    blank(); raw(rule(SECT[s.sec].title)); const f = SECT[s.sec].flavor(W); if(f) say(f);
+  }
+  if(s.kind === "repairs") return askRepairs();
+  if(s.kind === "possess") return askPossess();
+  blank();
+  const c = curDisplay(s);
+  const qt = typeof s.q === "function" ? s.q(W.rec) : s.q;
+  ln(`<span class="q">${esc(" ► " + qt)}</span>${c ? `<span class="cur">${esc("  [" + c + "]")}</span>` : ""}`);
+  if(s.hint) say("   " + s.hint, "dim");
+  if(s.type === "date") say("   MM/DD/YYYY, OR TODAY", "dim");
+  if(s.choices) opts(s.choices.map((ch,i) => [String(i+1), String(i+1), ch]), "   ");
+  ask(s.ps + ">", fieldInput, WIZ_HINT);
+}
+function wizCommon(v){
+  const U = v.trim().toUpperCase();
+  if(U === "BACK" || U === "<"){ W.i--; askStep(-1); return true; }
+  if(U === "ABORT" || U === "ESC"){ confirmAbort(); return true; }
+  if(U === "HELP" || U === "?"){ say("ENTER KEEPS THE BRACKETED VALUE.  -  CLEARS IT.  BACK RETURNS TO THE PREVIOUS FIELD.  ABORT ABANDONS THE ENTRY WITHOUT CHANGING THE LEDGER.", "dim"); return true; }
+  return false;
+}
+function matchChoice(v, choices){
+  const U = v.trim().toUpperCase();
+  const n = parseInt(U,10);
+  if(/^\d+$/.test(U) && n >= 1 && n <= choices.length) return { ok:true, v: choices[n-1] };
+  const hits = choices.filter(c => c.startsWith(U));
+  if(hits.length === 1) return { ok:true, v: hits[0] };
+  if(hits.length > 1) return { ok:false, msg:`"${U}" COULD BE ${hits.join(" OR ")}. BE MORE SPECIFIC.` };
+  return { ok:false, msg:"PICK ONE OF THE NUMBERED CHOICES." };
+}
+function fieldInput(v){
+  const s = STEPS[W.i];
+  if(wizCommon(v)) return;
+  const t = v.trim();
+  if(t === ""){
+    if(s.req && !W.rec[s.key]){ err("THE LEDGER NEEDS SOMETHING HERE."); return askStep(1); }
+    W.i++; return askStep(1);
+  }
+  if(t === "-"){
+    if(s.req){ err("THIS FIELD CAN'T BE BLANK."); return askStep(1); }
+    W.rec[s.key] = ""; W.i++; return askStep(1);
+  }
+  let res = { ok:true, v:t };
+  if(s.choices) res = matchChoice(t, s.choices);
+  else if(s.type === "date") res = parseDate(t);
+  else if(s.type === "money") res = parseMoney(t);
+  if(!res.ok){ err(res.msg); return askStep(1); }
+  W.rec[s.key] = res.v;
+  if(s.choices && res.v !== "OTHER" && (s.key + "_other") in W.rec) W.rec[s.key + "_other"] = "";
+  W.i++; askStep(1);
+}
+
+/* repairs sub-path */
+function askRepairs(){
+  const reps = W.rec.repairs;
+  blank();
+  if(reps.length){
+    say(`${reps.length} ON FILE:`, "dim");
+    reps.forEach((x,i) => say(`   ${i+1}. ${fmtDate(x.date) || "--/--/----"}  ${cut(x.desc, 50)}  ${fmtMoney(x.cost)}`, "dim"));
+  }
+  ln(`<span class="q">${esc(reps.length ? " ► ADD ANOTHER REPAIR OR MODIFICATION?" : " ► ANY REPAIRS OR MODIFICATIONS TO NOTE?")}</span>`);
+  opts([["Y","Y","YES"],["N","N","NO, MOVE ON"]], "   ");
+  ask("Y/N>", v => {
+    if(wizCommon(v)) return;
+    const U = v.trim().toUpperCase();
+    if(U === "Y" || U === "YES"){ W.rp = { date:"", desc:"", cost:"" }; return repField("date"); }
+    if(U === "" || U === "N" || U === "NO"){ W.i++; return askStep(1); }
+    err("YES OR NO."); askRepairs();
+  }, WIZ_HINT);
+}
+function repField(f){
+  const Q = { date:["DATE OF WORK","DATE"], desc:["WHAT WAS DONE (AND BY WHOM)","WORK"], cost:["COST","COST"] }[f];
+  blank();
+  ln(`<span class="q">${esc("   ► " + Q[0])}</span>`);
+  if(f === "date") say("     MM/DD/YYYY, OR TODAY. ENTER TO LEAVE UNDATED.", "dim");
+  if(f === "cost") say("     ENTER TO LEAVE BLANK.", "dim");
+  ask(Q[1] + ">", v => {
+    const U = v.trim().toUpperCase(), t = v.trim();
+    if(U === "ABORT"){ return confirmAbort(); }
+    if(U === "BACK" || U === "<"){
+      if(f === "date"){ W.rp = null; return askRepairs(); }
+      return repField(f === "desc" ? "date" : "desc");
+    }
+    if(f === "date"){
+      if(t){ const r = parseDate(t); if(!r.ok){ err(r.msg); return repField(f); } W.rp.date = r.v; }
+      return repField("desc");
+    }
+    if(f === "desc"){
+      if(!t){ err("DESCRIBE THE WORK, OR TYPE BACK."); return repField(f); }
+      W.rp.desc = t; return repField("cost");
+    }
+    if(f === "cost"){
+      if(t){ const r = parseMoney(t); if(!r.ok){ err(r.msg); return repField(f); } W.rp.cost = r.v; }
+      W.rec.repairs.push(W.rp); W.rp = null;
+      say("     NOTED.", "dim");
+      return askRepairs();
+    }
+  }, WIZ_HINT);
+}
+
+/* possession fork */
+function askPossess(){
+  blank();
+  ln(`<span class="q">${esc(" ► IS IT STILL IN YOUR POSSESSION?")}</span><span class="cur">${esc("  [" + (W.disposed ? "NO" : "YES") + "]")}</span>`);
+  opts([["Y","Y","YES, IT STAYS"],["N","N","NO, IT HAS LEFT"]], "   ");
+  ask("Y/N>", v => {
+    if(wizCommon(v)) return;
+    const U = v.trim().toUpperCase();
+    if(U === "") { /* keep */ }
+    else if(U === "Y" || U === "YES") W.disposed = false;
+    else if(U === "N" || U === "NO") W.disposed = true;
+    else { err("YES OR NO."); return askPossess(); }
+    if(W.disposed) say("THEN THE LEDGER WANTS TO KNOW WHERE IT WENT.");
+    W.i++; askStep(1);
+  }, WIZ_HINT);
+}
+
+function review(){
+  W.rec.status = W.disposed ? "DISPOSED" : "HELD";
+  if(!isNFA(W.rec)) NFA_KEYS.forEach(k => W.rec[k] = "");
+  if(W.rec.nfa_status === "PENDING"){ W.rec.nfa_approved = ""; W.rec.nfa_stamp = ""; }
+  if(!hasOAL(W.rec)) W.rec.nfa_oal = "";
+  if(!W.disposed) DISP_KEYS.forEach(k => W.rec[k] = "");
+  blank();
+  raw(recordScreen(W.rec));
+  blank();
+  const dupLog = S.records.find(r => r !== W.orig && String(r.log_no).toUpperCase() === String(W.rec.log_no).toUpperCase());
+  const dupSer = W.rec.serial && S.records.filter(r => r !== W.orig && r.serial && r.serial.toUpperCase() === W.rec.serial.toUpperCase());
+  if(dupLog) err(`LOG #${W.rec.log_no} IS ALREADY TAKEN. CHANGE THE LOG NUMBER BEFORE SAVING.`);
+  if(dupSer && dupSer.length) say(`NOTE: SERIAL ${W.rec.serial} ALSO APPEARS ON LOG #${dupSer.map(r => r.log_no).join(", #")}.`, "dim");
+  say(W.isNew ? "INK IT INTO THE LEDGER?" : "COMMIT THE AMENDMENT?");
+  opts([["R","R","RECORD ENTRY"],["E","E","EDIT FROM THE TOP"],["A","A","ABANDON"]]);
+  ask("CONFIRM>", v => {
+    const U = v.trim().toUpperCase();
+    if(U === "R" || U === "RECORD" || U === "S" || U === "Y"){
+      if(dupLog){ W.i = 0; err("FIX THE LOG NUMBER FIRST."); return askStep(1); }
+      return commit();
+    }
+    if(U === "E" || U === "EDIT"){ W.i = 0; W.seen = new Set(); cls(); return askStep(1); }
+    if(U === "A" || U === "ABANDON" || U === "ABORT") return confirmAbort();
+    if(U === "BACK" || U === "<"){ W.i = STEPS.length - 1; return askStep(-1); }
+    err("R, E, OR A."); review();
+  }, "R RECORD  E EDIT  A ABANDON  BACK");
+}
+function commit(){
+  const r = W.rec, now = stamp();
+  r.modified = now; if(!r.created) r.created = now;
+  if(W.isNew) S.records.push(r);
+  else { const i = S.records.indexOf(W.orig); if(i >= 0) S.records[i] = r; else S.records.push(r); }
+  const wasNew = W.isNew;
+  W = null;
+  markDirty(); beep(1320,.05);
+  viewRecord(r, recordedNote(wasNew ? "ENTRY RECORDED." : "AMENDMENT RECORDED."));
+}
+function confirmAbort(){
+  say("ABANDON THIS ENTRY? NOTHING WILL CHANGE IN THE LEDGER.");
+  opts([["Y","Y","ABANDON"],["N","N","KEEP GOING"]]);
+  const back = W;
+  ask("ABANDON?", v => {
+    if(/^Y/i.test(v.trim())){ const orig = back.orig; W = null; if(orig) viewRecord(orig, "NOTHING CHANGED."); else goMenu("ENTRY ABANDONED. THE PAGE IS STILL BLANK."); }
+    else { W = back; askStep(1); }
+  }, "Y ABANDON  N CONTINUE");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE RACK (browse / search)
+   ═══════════════════════════════════════════════════════════════════════ */
+const SORTS = ["LOG#","MAKE","TYPE","ACQUIRED","CALIBER"];
+const FILTERS = ["ALL","HELD","DISPOSED","NFA"];
+function rackList(){
+  let list = S.records.slice();
+  if(S.br.filter === "HELD") list = list.filter(r => !isDisposed(r));
+  if(S.br.filter === "DISPOSED") list = list.filter(isDisposed);
+  if(S.br.filter === "NFA") list = list.filter(isNFA);
+  if(S.br.q){
+    const q = S.br.q.toLowerCase();
+    list = list.filter(r => CSV_COLS.some(c => c !== "repairs" && String(r[c]||"").toLowerCase().includes(q)) || r.repairs.some(x => [x.desc, x.date, fmtDate(x.date), x.cost].some(v => String(v||"").toLowerCase().includes(q))));
+  }
+  const cmp = (a,b) => String(a||"").localeCompare(String(b||""), undefined, { numeric:true, sensitivity:"base" });
+  const key = { "LOG#": r => r.log_no || "\uffff", "MAKE": r => (r.make||"") + " " + (r.model||""), "TYPE": typeOf, "ACQUIRED": r => r.acq_date || "9999", "CALIBER": r => r.caliber }[S.br.sort];
+  list.sort((a,b) => cmp(key(a), key(b)) || cmp(a.log_no, b.log_no));
+  return list;
+}
+function pageSize(){
+  const lh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fs")) || 16;
+  return Math.max(6, Math.floor(out.clientHeight / lh) - 14);
+}
+function browse(o){
+  Object.assign(S.br, o || {});
+  S.screen = () => browse();
+  const list = rackList(), ps = pageSize();
+  const pages = Math.max(1, Math.ceil(list.length / ps));
+  S.br.page = Math.min(Math.max(0, S.br.page), pages - 1);
+  S.rackList = list;
+  cls();
+  raw(rule("THE RACK"));
+  const s = stats();
+  if(!s.n){
+    blank(); say("THE RACK IS EMPTY. NOTHING HAS BEEN LOGGED YET."); blank();
+    opts([["1","N","LOG A NEW FIREARM"],["M","M","BACK TO THE VAULT"]]);
+    return ask("RACK>", v => { const U = v.trim().toUpperCase(); if(U === "N" || U === "1") return startWizard(blankRecord(), true); if(U === "M" || U === "") return goMenu(); if(!globalVerb(v)) err("NOTHING HERE TO " + U + "."); }, "N NEW  M MENU");
+  }
+  say(`${list.length} OF ${s.n} SHOWN.  FILTER: ${S.br.filter}.  SORTED BY ${S.br.sort}.` + (S.br.q ? `  SEARCHING FOR "${S.br.q.toUpperCase()}".` : ""), "dim");
+  blank();
+  const hdr = " " + pad("LOG#",7) + pad("TYPE",9) + pad("MAKE",15) + pad("MODEL",15) + pad("CAL/GA",10) + pad("SERIAL",14) + "STATUS";
+  ln(`<span class="dim">${esc(hdr)}</span>`);
+  ln(`<span class="dim">${esc(" " + "─".repeat(78))}</span>`);
+  const slice = list.slice(S.br.page * ps, S.br.page * ps + ps);
+  if(!slice.length) say("NOTHING MATCHES. TRY C TO CLEAR THE SEARCH, OR F TO CHANGE THE FILTER.");
+  slice.forEach(r => {
+    const row = " " + pad(cut(r.log_no,6),7) + pad(cut(typeOf(r, true),8),9) + pad(cut(r.make,14),15) + pad(cut(r.model,14),15) + pad(cut(r.caliber,9),10) + pad(cut(r.serial,13),14) + (isDisposed(r) ? "GONE" : "HELD");
+    ln(`<a class="row" role="button" tabindex="0" data-cmd="${r.log_no ? "#" + esc(r.log_no) : "@" + S.records.indexOf(r)}">${esc(row)}</a>`);
+  });
+  ln(`<span class="dim">${esc(" " + "─".repeat(78))}</span>`);
+  say(`PAGE ${S.br.page+1} OF ${pages}. TYPE A LOG# (OR CLICK A ROW) TO EXAMINE IT. ANYTHING ELSE SEARCHES.`, "dim");
+  blank();
+  const nf = FILTERS[(FILTERS.indexOf(S.br.filter)+1) % FILTERS.length];
+  const ns = SORTS[(SORTS.indexOf(S.br.sort)+1) % SORTS.length];
+  const o2 = [];
+  if(pages > 1){ o2.push(["N","N","NEXT"], ["P","P","PREV"]); }
+  o2.push(["F","F","SHOW " + nf], ["S","S","SORT BY " + ns]);
+  if(S.br.q) o2.push(["C","C","CLEAR SEARCH"]);
+  o2.push(["A","A","ADD NEW"], ["M","M","VAULT"]);
+  opts(o2);
+  ask("RACK>", rackInput, "LOG# EXAMINE  N/P PAGE  F FILTER  S SORT  M MENU");
+}
+function rackInput(v){
+  const t = v.trim(), U = t.toUpperCase();
+  if(U === "") return browse();
+  if(U === "N" || U === "NEXT"){ S.br.page++; return browse(); }
+  if(U === "P" || U === "PREV"){ S.br.page--; return browse(); }
+  if(U === "F"){ S.br.filter = FILTERS[(FILTERS.indexOf(S.br.filter)+1) % FILTERS.length]; S.br.page = 0; return browse(); }
+  if(U === "S"){ S.br.sort = SORTS[(SORTS.indexOf(S.br.sort)+1) % SORTS.length]; return browse(); }
+  if(U === "C"){ S.br.q = ""; S.br.page = 0; return browse(); }
+  if(U === "A"){ return startWizard(blankRecord(), true); }
+  if(U === "/"){ return askSearch(); }
+  if(/^@\d+$/.test(t) && S.records[+t.slice(1)]) return viewRecord(S.records[+t.slice(1)]);
+  const r = findLog(t);
+  if(r) return viewRecord(r);
+  if(globalVerb(v)) return;
+  S.br.q = t; S.br.page = 0; browse();
+}
+function askSearch(){
+  blank();
+  say("SEARCH FOR WHAT? MAKE, SERIAL, A NAME, A CALIBER... ANY FRAGMENT WILL DO.");
+  ask("FIND>", v => { const t = v.trim(); if(!t) return goMenu(); browse({ q:t, page:0 }); }, "ENTER A SEARCH TERM  (BLANK CANCELS)");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RECORD VIEW
+   ═══════════════════════════════════════════════════════════════════════ */
+function viewRecord(r, notice){
+  S.cur = r;
+  S.screen = () => viewRecord(r);
+  cls();
+  raw(recordScreen(r));
+  if(r.created || r.modified) raw(` ENTERED ${fmtDate((r.created||"").slice(0,10)) || "?"}    LAST AMENDED ${fmtDate((r.modified||"").slice(0,10)) || "?"}`, "dim");
+  blank();
+  if(notice){ say(notice); blank(); }
+  const list = (S.rackList && S.rackList.includes(r)) ? S.rackList : S.records;
+  const i = list.indexOf(r);
+  const o = [["E","E","AMEND"],["R","R","ADD REPAIR"]];
+  if(r.repairs.length) o.push(["K","K","STRIKE REPAIR"]);
+  o.push(isDisposed(r) ? ["U","U","UNDO DISPOSITION"] : ["D","D","DISPOSE"]);
+  o.push(["O","O","EXPORT THIS"],["DEL","DEL","DELETE"]);
+  if(i > 0) o.push(["P","P","PREV"]);
+  if(i >= 0 && i < list.length - 1) o.push(["N","N","NEXT"]);
+  o.push(["B","B","RACK"],["M","M","VAULT"]);
+  opts(o);
+  ask(r.log_no ? `#${r.log_no}>` : "UNNUMBERED>", v => recordInput(v, r, list, i), "E AMEND  R REPAIR  D DISPOSE  O EXPORT  B RACK");
+}
+function recordInput(v, r, list, i){
+  const U = v.trim().toUpperCase();
+  switch(U){
+    case "": return viewRecord(r);
+    case "E": case "EDIT": case "AMEND": return startWizard(r, false);
+    case "R": case "REPAIR": return quickRepair(r);
+    case "K": case "STRIKE": return strikeRepair(r);
+    case "D": return startWizard(r, false, { jump:"_possess", disposed:true });
+    case "U": return undoDisposition(r);
+    case "O": return exportStart(r);
+    case "DEL": case "DELETE": return deleteRecord(r);
+    case "P": if(i > 0) return viewRecord(list[i-1]); return err("THIS IS THE FIRST PAGE.");
+    case "N": if(i < list.length-1) return viewRecord(list[i+1]); return err("THIS IS THE LAST PAGE.");
+    case "B": case "BACK": return browse();
+  }
+  if(!globalVerb(v)) err("NOT AN OPTION HERE. TRY ONE OF THE BRACKETED KEYS.");
+}
+function quickRepair(r){
+  const rep = { date:"", desc:"", cost:"" };
+  blank(); raw(rule("NEW REPAIR / MODIFICATION FOR #" + r.log_no, "─"));
+  const step = f => {
+    const P = { date:["DATE OF WORK (MM/DD/YYYY, TODAY, OR ENTER TO SKIP)","DATE"], desc:["WHAT WAS DONE (AND BY WHOM)","WORK"], cost:["COST (ENTER TO SKIP)","COST"] }[f];
+    ln(`<span class="q">${esc(" ► " + P[0])}</span>`);
+    ask(P[1] + ">", v => {
+      const t = v.trim(), U = t.toUpperCase();
+      if(U === "ABORT" || U === "ESC") return viewRecord(r, "NOTHING ADDED.");
+      if(f === "date"){ if(t){ const p = parseDate(t); if(!p.ok){ err(p.msg); return step(f); } rep.date = p.v; } return step("desc"); }
+      if(f === "desc"){ if(!t){ err("DESCRIBE THE WORK, OR TYPE ABORT."); return step(f); } rep.desc = t; return step("cost"); }
+      if(t){ const p = parseMoney(t); if(!p.ok){ err(p.msg); return step(f); } rep.cost = p.v; }
+      r.repairs.push(rep); r.modified = stamp();
+      markDirty(); viewRecord(r, "REPAIR NOTED.");
+    }, "ABORT CANCELS");
+  };
+  step("date");
+}
+function strikeRepair(r){
+  if(!r.repairs.length) return err("NO REPAIRS TO STRIKE.");
+  blank();
+  r.repairs.forEach((x,i) => ln(" " + opt(String(i+1), String(i+1), `${fmtDate(x.date) || "--/--/----"}  ${cut(x.desc,48)}  ${fmtMoney(x.cost)}`)));
+  say("STRIKE WHICH ONE? (ENTER CANCELS)");
+  ask("STRIKE>", v => {
+    const n = parseInt(v,10);
+    if(!v.trim()) return viewRecord(r);
+    if(!(n >= 1 && n <= r.repairs.length)){ err("NO SUCH LINE."); return strikeRepair(r); }
+    r.repairs.splice(n-1,1); r.modified = stamp();
+    markDirty(); viewRecord(r, `REPAIR LINE ${n} STRUCK.`);
+  }, "NUMBER STRIKES  ENTER CANCELS");
+}
+function undoDisposition(r){
+  say(`MARK #${r.log_no} AS BACK IN YOUR POSSESSION? THE DISPOSITION DETAILS WILL BE ERASED.`);
+  opts([["Y","Y","YES, ERASE THEM"],["N","N","NO"]]);
+  ask("UNDO?", v => {
+    if(!/^Y/i.test(v.trim())) return viewRecord(r);
+    DISP_KEYS.forEach(k => r[k] = "");
+    r.modified = stamp();
+    r.status = "HELD";
+    markDirty(); viewRecord(r, "BACK ON THE RACK.");
+  }, "Y ERASE  N CANCEL");
+}
+function deleteRecord(r){
+  blank();
+  say(`THIS REMOVES LOG #${r.log_no} FROM THE LEDGER ENTIRELY. IF IT WAS SOLD OR TRANSFERRED, DISPOSE IT INSTEAD; THAT KEEPS THE PAPER TRAIL.`);
+  say("TYPE YES TO DELETE. ANYTHING ELSE CANCELS.");
+  ask("DELETE?", v => {
+    if(v.trim().toUpperCase() !== "YES") return viewRecord(r, "NOT DELETED.");
+    S.records.splice(S.records.indexOf(r), 1);
+    markDirty(); S.cur = null; browse({}); say(`LOG #${r.log_no} DELETED.`);
+  }, "TYPE YES TO CONFIRM");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EXPORT
+   ═══════════════════════════════════════════════════════════════════════ */
+const FORMATS = [
+  { id:"screens", label:"RECORD SCREENS  (ASCII, BOX-DRAWN .TXT)", ext:"txt" },
+  { id:"dotmatrix", label:"DOT-MATRIX  (7-BIT .TXT, AS PRINTED IN 1990)", ext:"txt" },
+  { id:"ledger", label:"LEDGER  (ONE LINE PER FIREARM, 132 COLUMNS)", ext:"txt" },
+  { id:"clean", label:"CLEAN LIST  (LOG, MAKE, MODEL, CAL., SERIAL)", ext:"txt" },
+  { id:"csv", label:"CSV  (SPREADSHEET)", ext:"csv" },
+  { id:"json", label:"JSON", ext:"json" },
+];
+function exportStart(single){
+  if(!S.records.length) { err("THE LEDGER IS EMPTY. THERE IS NOTHING TO EXPORT."); return; }
+  const back = single ? () => viewRecord(single) : () => goMenu();
+  S.screen = () => exportStart(single);
+  cls();
+  raw(rule("EXPORT / PRINT"));
+  blank();
+  if(single){ return exportFormat([single], `log-${String(single.log_no).replace(/[^\w-]/g,"")}`, back); }
+  const s = stats();
+  say("WHICH PAGES?");
+  blank();
+  const scopes = [["1","1",`THE WHOLE LEDGER (${s.n})`],["2","2",`ONLY WHAT YOU STILL HOLD (${s.h})`],["3","3",`ONLY WHAT HAS LEFT (${s.d})`]];
+  if(S.br.q || S.br.filter !== "ALL") scopes.push(["4","4",`THE CURRENT RACK VIEW (${rackList().length})`]);
+  menuList(scopes);
+  blank();
+  ask("PAGES>", v => {
+    const U = v.trim().toUpperCase();
+    if(U === "" || U === "M" || U === "ESC") return back();
+    const sorted = S.records.slice().sort((a,b) => String(a.log_no || "\uffff").localeCompare(String(b.log_no || "\uffff"), undefined, { numeric:true }));
+    const pick = { "1":[sorted,"all"], "2":[sorted.filter(r => !isDisposed(r)),"held"], "3":[sorted.filter(isDisposed),"disposed"], "4":[rackList(),"selection"] }[U];
+    if(!pick || (U === "4" && scopes.length < 4)) return err("PICK 1, 2" + (scopes.length > 3 ? ", 3 OR 4." : " OR 3."));
+    if(!pick[0].length) return err("NOTHING IN THAT SELECTION.");
+    exportFormat(pick[0], pick[1], back);
+  }, "NUMBER CHOOSES  ENTER CANCELS");
+}
+function exportFormat(recs, tag, back){
+  blank();
+  say(`${recs.length} RECORD${recs.length===1?"":"S"}. IN WHAT FORM?`);
+  blank();
+  menuList(FORMATS.map((f,i) => [String(i+1), String(i+1), f.label]));
+  blank();
+  ask("FORMAT>", v => {
+    const U = v.trim();
+    if(!U) return back();
+    const f = FORMATS[parseInt(U,10) - 1];
+    if(!f) return err("PICK A NUMBER FROM THE LIST.");
+    exportDest(recs, tag, f, back);
+  }, "NUMBER CHOOSES  ENTER CANCELS");
+}
+function renderExport(recs, f){
+  switch(f.id){
+    case "screens": return screensText(recs, false);
+    case "dotmatrix": return screensText(recs, true);
+    case "ledger": return ledgerText(recs) + "\n";
+    case "clean": return cleanText(recs) + "\n";
+    case "csv": return toCSV(recs);
+    case "json": return jsonText(recs) + "\n";
+  }
+}
+function exportDest(recs, tag, f, back){
+  blank();
+  say("WHERE TO?");
+  blank();
+  menuList([["1","1","DISK (DOWNLOAD A FILE)"],["2","2","PRINTER"],["3","3","SCREEN"]]);
+  blank();
+  ask("DEST>", v => {
+    const U = v.trim();
+    if(!U) return back();
+    const text = renderExport(recs, f);
+    const name = `quickfire_${tag}_${f.id}_${todayISO()}.${f.ext}`;
+    if(U === "1"){
+      download(name, text, f.ext === "csv" ? "text/csv" : f.ext === "json" ? "application/json" : "text/plain");
+      say(`WROTE ${name.toUpperCase()}`); beep(1320,.05);
+      blank(); opts([["","ENTER","CONTINUE"]]);
+      return ask("OK>", () => back(), "ENTER CONTINUES");
+    }
+    if(U === "2"){
+      const p = $("printout");
+      p.textContent = text.replace(/^\uFEFF/,"");
+      p.classList.toggle("wide", f.id === "ledger" || f.id === "csv" || f.id === "json");
+      say(f.id === "ledger" ? "SENDING TO PRINTER. LANDSCAPE ORIENTATION RECOMMENDED FOR 132 COLUMNS." : "SENDING TO PRINTER.");
+      setTimeout(() => window.print(), 50);
+      blank(); opts([["","ENTER","CONTINUE"]]);
+      return ask("OK>", () => back(), "ENTER CONTINUES");
+    }
+    if(U === "3"){
+      cls();
+      raw(text.replace(/^\uFEFF/,"").replace(/\n$/,""));
+      blank();
+      if(f.id === "ledger") say("132 COLUMNS: SCROLL SIDEWAYS, OR SEND IT TO THE PRINTER IN LANDSCAPE.", "dim");
+      opts([["","ENTER","CONTINUE"]]);
+      out.scrollTop = 0;
+      return ask("OK>", () => back(), "ENTER CONTINUES");
+    }
+    err("1, 2, OR 3.");
+  }, "1 DISK  2 PRINTER  3 SCREEN");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HELP / ABOUT
+   ═══════════════════════════════════════════════════════════════════════ */
+function showHelp(){
+  const prev = S.screen;
+  S.screen = showHelp;
+  cls();
+  raw(rule("HELP"));
+  raw(`
+ THE LEDGER LIVES IN A .CSV FILE YOU CHOOSE. QUICKFIRE ITSELF MAKES NO
+ NETWORK REQUESTS. UNLESS YOU TURN IT OFF (RECOVERY), A PLAINTEXT RECOVERY
+ COPY IS ALSO KEPT IN THIS BROWSER'S LOCAL STORAGE IN CASE THE TAB CLOSES.
+
+ KEYS
+   F1 HELP     F2 SAVE     F3 NEW ENTRY     ESC BACK TO THE VAULT
+   CTRL+S SAVE             UP/DOWN ARROWS RECALL EARLIER COMMANDS
+
+ VERBS (TYPE THEM ANYWHERE OUTSIDE AN ENTRY)
+   NEW / TAKE          LOG A NEW FIREARM
+   INVENTORY / I       BROWSE THE RACK
+   FIND <WORDS>        SEARCH EVERY FIELD, REPAIRS INCLUDED
+   EXAMINE <LOG#>      OPEN A RECORD          (X 12 FOR SHORT)
+   DROP <LOG#>         RECORD A DISPOSITION
+   SAVE / SAVE AS      WRITE THE LEDGER TO DISK
+   OPEN                READ A LEDGER FILE (OR DROP A .CSV ON THE SCREEN)
+   EXPORT / PRINT      RECORD SCREENS, DOT-MATRIX, LEDGER, CLEAN LIST, CSV, JSON
+   LOOK                REDRAW THIS SCREEN
+   AUTOSAVE            TOGGLE WRITING EACH CHANGE STRAIGHT TO THE FILE
+   RECOVERY            TOGGLE THE BROWSER RECOVERY COPY (OFF ERASES IT)
+   CHECK               LIST WARNINGS FROM THE LAST FILE OPENED
+   SOUND               TOGGLE THE PC SPEAKER
+   ABOUT               VERSION AND CREDITS
+
+ DURING AN ENTRY
+   ENTER   KEEP THE VALUE IN [BRACKETS]       -      STRIKE IT OUT
+   BACK    RETURN TO THE PREVIOUS FIELD       ABORT  WALK AWAY, NOTHING SAVED
+   DATES   MM/DD/YYYY, YYYY-MM-DD, M/D/YY, OR TODAY
+
+ THE CSV
+   ONE ROW PER FIREARM. REPAIRS SHARE ONE CELL, ONE PER LINE, AS
+   "YYYY-MM-DD | DESCRIPTION | COST". STATUS IS HELD OR DISPOSED;
+   A DISPOSED ITEM NEEDS NO OTHER DISPOSITION DETAILS TO COUNT AS GONE.
+   FILES WITH BROKEN QUOTING OR REPEATED LOG NUMBERS ARE REFUSED, NOT GUESSED AT.
+
+ SAVING
+   CHROME/EDGE: ONCE BOUND TO A FILE, SAVES (AND AUTOSAVE) WRITE TO IT IN PLACE.
+   OTHER BROWSERS: EACH SAVE STARTS A DOWNLOAD OF A NEW COPY.`);
+  blank();
+  opts([["","ENTER","RETURN"]]);
+  ask("HELP>", v => { if(v.trim() && globalVerb(v)) return; (prev && prev !== showHelp ? prev : goMenu)(); }, "ENTER RETURNS");
+}
+function showAbout(){
+  blank();
+  raw(` QUICKFIRE v${VERSION}. ONE HTML FILE, ONE CSV. MAKES NO NETWORK REQUESTS.
+ NAME AND SPIRIT LIFTED FROM THE QUICKFIRE INVENTORY RECORD SCREEN (C. 1990).
+ TYPEFACE: IBM VGA 9x16 FROM THE ULTIMATE OLDSCHOOL PC FONT PACK BY VILER,
+ INT10H.ORG, CC BY-SA 4.0.`, "dim");
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════════════════════════════════ */
+const MENU_ART = "⠀⠀⠀⠀⠀⠀⠀⠀⢀⣄⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣀⣤⣀⣀⣀⣰\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⠿⠿⠿⠛⠛⠛⠛⠉⠉⠋⠉⠉⠉\n⣿⣿⣿⠿⠏⠉⠁⠀⢰⣿⠁⠀⢹⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠉⠁⠀⠀⠀⠀⠀⠀⠻⠇⠀⠀⠀⠈⢿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+const ART = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⢶⣶⣶⠼⣦⣤⣼⣼⡆⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠖⣯⠿⠟⠛⠻⢶⣿⣯⣿⣿⣃⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣖⣺⡿⠿⠷⠶⠒⢶⣶⠖⠀⠉⡻⢻⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⣴⢻⣭⣫⣿⠁⠀⠀⠀⠀⠀⠀⠀⢀⣾⠃⢀⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⢀⣖⡿⠋⢙⣿⠿⢿⠿⣿⡦⠄⠀⠀⠀⣠⣾⠟⠀⠀⣼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⢀⣰⣿⣴⣿⡿⠿⠿⠿⢿⣦⣄⠀⠀⠀⣠⣾⣿⠃⠀⢀⣸⡿⣳⣶⣲⡄⠀⠀⠀⠀⠀⠀\n⠀⠀⣾⣽⡿⣛⣵⠾⠿⠿⠷⣦⣌⠻⣷⣄⢰⣿⠟⠁⠀⢠⣾⠿⢡⣯⠸⠧⢽⣄⠀⠀⠀⠀⠀\n⠀⢸⡇⡟⣴⡿⢟⣽⣾⣿⣶⣌⠻⣧⣹⣿⡿⠋⠀⠀⠀⣾⠿⡇⣽⣿⣄⠀⠀⠉⠳⣄⢀⡀⠀\n⠀⢸⠇⢳⣿⢳⣿⣿⣿⣿⣿⣿⡆⢹⡇⣿⡇⠀⡆⣠⣼⡏⢰⣿⣿⣿⣿⣦⠀⠀⠀⠈⠳⣅⠀\n⠀⣸⡀⢸⣿⢸⣿⣿⣿⣿⣿⣿⡇⣸⡇⣿⡇⠀⡟⣻⢳⣷⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠘⣧\n⢰⡟⡿⡆⠹⣧⡙⢿⣿⣿⠿⡟⢡⣿⢷⣿⣧⠾⢠⣿⣾⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘\n⠀⠻⡽⣦⠀⠈⠙⠳⢶⣦⡶⠞⢻⡟⡸⠟⠁⢠⠟⠉⠉⠙⠿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⡴\n⠀⠀⢸⣿⡇⠀⠀⣀⣠⠀⢀⡀⠸⣹⠇⠀⣰⡟⡀⠀⠈⠛⠻⢿⣻⣿⡿⠀⠀⠀⠀⠀⠀⡠⠁\n⠀⠀⢸⣿⣇⣴⢿⣿⣿⣿⣮⣿⣷⡟⠀⣰⣿⢰⠀⣀⠀⠀⠀⢀⣉⣿⡇⠀⠀⠀⠀⠀⣸⠃⠀\n⠀⠀⢸⣿⡟⣯⠸⣿⣿⣿⣿⢈⣿⡇⣼⣿⠇⣸⡦⣙⣷⣦⣴⣯⠿⠛⢷⡀⠀⠀⠀⣰⡟⠀⠀\n⠀⠀⠘⣿⣿⡸⣷⣝⠻⠟⢋⣾⣟⣰⡏⣠⣤⡟⠀⠀⠈⠉⠁⠀⠀⠀⠀⢻⣶⠀⢀⣿⠁⠀⠀\n⠀⠀⠀⢸⡿⣿⣦⣽⣛⣛⣛⣭⣾⣷⡶⠞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⡟⠀⠀⠀⠀\n⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠁⢸⢻⠁⠀⠀⠀⠀\n⠀⠀⠀⠀⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⣤⣀⣀⣀⣀⣀⣠⣤⠶⠛⠁⢀⣾⡟⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⢿⣻⣿⣿⣿⣿⣿⣿⣎⣿⡅⠀⠈⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⣼⣿⠁⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡷⠟⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⠻⢿⣿⣿⣟⣂⣀⣀⣀⣀⣀⣀⣤⠴⠋⠁⣾⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⣷⣷⡄⠀⠀⠀⠉⠉⠉⠉⠉⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣷⣤⣤⣤⣤⣄⣤⣤⡤⠴⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+function boot(){
+  const lines = [
+    [0,   "PHOSPHOR BIOS (C) 1990"],
+    [120, "MEMORY TEST:  640K OK"],
+    [260, ""],
+    [300, `QUICKFIRE  VERSION ${VERSION}`],
+    [380, "LOADING QFIRE.EXE ......... OK"],
+  ];
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const timers = [];
+  let done = false;
+  const at = (t, f) => timers.push(setTimeout(() => { if(!done) f(); }, t));
+  const finish = () => { if(done) return; done = true; timers.forEach(clearTimeout); S.booting = false; cls(); afterBoot(); };
+  S.skipBoot = finish;
+  lines.forEach(([t, s]) => at(t, () => raw(s)));
+  const artLines = ART.split("\n"), step = reduce ? 0 : 45, t0 = 750;
+  let artEm = .82;
+  at(t0, () => {
+    cls(); blank();
+    const fsPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fs")) || 16;
+    artEm = Math.max(.4, Math.min(.82, (out.clientHeight / fsPx - 9) / artLines.length));
+  });
+  artLines.forEach((l, i) => at(t0 + 30 + i * step, () => {
+    const d = ln(`<span class="art">${esc(l)}</span>`);
+    d.style.textAlign = "center"; d.style.fontSize = artEm + "em";
+  }));
+  const t1 = t0 + 60 + artLines.length * step;
+  at(t1, () => {
+    blank();
+    ln(esc(spaced("QUICKFIRE"))).style.textAlign = "center";
+    ln(`<span class="dim">${esc("FIREARM INVENTORY RECORD SYSTEM")}</span>`).style.textAlign = "center";
+    blank();
+    ln(`<span class="dim">${esc("PRESS ANY KEY")}</span>`).style.textAlign = "center";
+    out.scrollTop = 0;
+  });
+  at(t1 + 3500, finish);
+}
+function afterBoot(){
+  loadRecoveryPref();
+  const st = S.recovery ? unstash() : null;
+  let recs = [];
+  if(st && st.unreadable){ goMenu("A RECOVERY COPY FROM AN UNKNOWN OR DAMAGED FORMAT WAS FOUND IN THIS BROWSER AND IGNORED."); return; }
+  if(st){
+    const res = parseLedger(st.csv);
+    if(res.errors.length){ goMenu("THE RECOVERY COPY IN THIS BROWSER COULD NOT BE READ (" + res.errors[0] + "). IT WAS LEFT IN PLACE."); return; }
+    recs = res.records;
+  }
+  if(recs.length){
+    blank();
+    say(`A WORKING COPY FROM ${new Date(st.savedAt).toLocaleString().toUpperCase()} IS STILL IN THIS BROWSER` + (st.fileName ? `, LAST SAVED AS ${st.fileName.toUpperCase()}` : "") + (st.dirty ? ". IT HAS CHANGES THAT WERE NEVER SAVED TO DISK." : "."));
+    opts([["Y","Y","PICK UP WHERE YOU LEFT OFF"],["N","N","START CLEAN (DISCARDS IT)"]]);
+    ask("RESTORE?", v => {
+      if(/^N/i.test(v.trim())){ dropStash(); goMenu(); }
+      else { S.records = recs; S.fileName = st.fileName || ""; markLoaded(); if(st.dirty){ S.revision = 1; S.dirty = true; } goMenu("WORKING COPY RESTORED." + (S.fileName && window.showSaveFilePicker ? " THE FIRST SAVE WILL ASK WHERE TO WRITE." : "")); }
+    }, "Y RESTORE  N START CLEAN");
+  } else goMenu();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EVENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+inp.addEventListener("keydown", e => {
+  if(S.booting){ e.preventDefault(); S.skipBoot && S.skipBoot(); return; }
+  if(e.key === "Enter"){ e.preventDefault(); submit(inp.value); return; }
+  if(e.key === "ArrowUp"){ e.preventDefault(); if(S.hIdx > 0){ S.hIdx--; inp.value = S.history[S.hIdx]; renderTyped(); } return; }
+  if(e.key === "ArrowDown"){ e.preventDefault(); if(S.hIdx < S.history.length){ S.hIdx++; inp.value = S.history[S.hIdx] || ""; renderTyped(); } return; }
+  if(e.key === "PageUp"){ e.preventDefault(); out.scrollTop -= out.clientHeight * .9; return; }
+  if(e.key === "PageDown"){ e.preventDefault(); out.scrollTop += out.clientHeight * .9; return; }
+  setTimeout(renderTyped, 0);
+});
+inp.addEventListener("input", renderTyped);
+inp.addEventListener("select", renderTyped);
+document.addEventListener("selectionchange", () => { if(document.activeElement === inp) renderTyped(); });
+
+document.addEventListener("keydown", e => {
+  if(S.booting) return;
+  const k = e.key;
+  if(k === "F1"){ e.preventDefault(); if(W) say("ENTER KEEPS THE BRACKETED VALUE.  -  CLEARS IT.  BACK RETURNS TO THE PREVIOUS FIELD.  ABORT ABANDONS THE ENTRY.", "dim"); else showHelp(); }
+  else if(k === "F2" || ((e.ctrlKey || e.metaKey) && k.toLowerCase() === "s")){ e.preventDefault(); if(W) say("FINISH OR ABORT THIS ENTRY FIRST, THEN SAVE."); else saveLogbook(e.shiftKey); }
+  else if(k === "F3"){ e.preventDefault(); if(!W) startWizard(blankRecord(), true); }
+  else if(k === "Escape"){
+    e.preventDefault();
+    if(inp.value){ inp.value = ""; renderTyped(); return; }
+    if(W) confirmAbort(); else goMenu();
+  }
+});
+
+document.addEventListener("click", e => {
+  if(S.booting){ S.skipBoot && S.skipBoot(); return; }
+  const a = e.target.closest(".opt,.row");
+  if(a){ e.preventDefault(); if(S.booting) return; submit(a.dataset.cmd); focusIn(); return; }
+  if(!window.getSelection().toString()) focusIn();
+});
+document.addEventListener("keydown", e => {
+  const a = document.activeElement;
+  if(a && (a.classList.contains("opt") || a.classList.contains("row")) && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); submit(a.dataset.cmd); focusIn(); }
+}, true);
+
+$("filepick").addEventListener("change", async e => {
+  const f = e.target.files[0]; if(!f) return;
+  loadText(await f.text(), f.name, null);
+  e.target.value = "";
+});
+let dragDepth = 0;
+document.addEventListener("dragenter", e => { e.preventDefault(); dragDepth++; $("dropveil").classList.add("on"); });
+document.addEventListener("dragleave", e => { dragDepth--; if(dragDepth <= 0){ dragDepth = 0; $("dropveil").classList.remove("on"); } });
+document.addEventListener("dragover", e => e.preventDefault());
+document.addEventListener("drop", async e => {
+  e.preventDefault(); dragDepth = 0; $("dropveil").classList.remove("on");
+  const item = e.dataTransfer.items && e.dataTransfer.items[0];
+  let handle = null;
+  try{ if(item && item.getAsFileSystemHandle){ const h = await item.getAsFileSystemHandle(); if(h && h.kind === "file") handle = h; } }catch(_){}
+  const f = handle ? await handle.getFile() : e.dataTransfer.files[0];
+  if(!f) return;
+  if(W){ err("FINISH OR ABORT THIS ENTRY BEFORE OPENING ANOTHER LEDGER."); return; }
+  const text = await f.text();
+  if(S.dirty) return confirmDiscard(`LOADING ${f.name.toUpperCase()}`, () => loadText(text, f.name, handle));
+  loadText(text, f.name, handle);
+});
+
+window.addEventListener("beforeunload", e => { if(S.dirty){ e.preventDefault(); e.returnValue = ""; } });
+window.addEventListener("resize", fit);
+
+document.fonts && document.fonts.ready.then(fit);
+fit();
+renderTop(); setInterval(renderTop, 20000);
+renderStatus();
+psEl.textContent = "";
+renderTyped();
+focusIn();
+boot();
+</script>
+</body>
+</html>
