@@ -1,0 +1,6 @@
+﻿log_no,status,type,type_other,make,model,year,caliber,serial,action,finish,barrel,notes,nfa_item,nfa_form,nfa_registrant_type,nfa_registrant,nfa_status,nfa_submitted,nfa_approved,nfa_stamp,nfa_oal,acq_source,acq_source_other,acq_date,acq_condition,acq_name,acq_cost,acq_address,repairs,disp_source,disp_source_other,disp_date,disp_price,disp_name,disp_id,disp_phone,disp_dob,disp_other,disp_address,created,modified
+9001,HELD,HANDGUN,,Example Arms,Model 1,1958,.38spl,EX000001,Revolver,Blued,"4""",Sample record. Holster wear.,,,,,,,,,,STORE,,1990-06-20,USED,Corner Gun Shop,175.00,,1991-03-02 | New mainspring | 12.50,,,,,,,,,,,,
+9002,HELD,RIFLE,,Example Arms,Bolt 22,1972,22lr,EX000002,Bolt,Blued,"22""",,,,,,,,,,,PRIVATE,,1990-07-04,USED,A. Neighbor,80.00,,,,,,,,,,,,,,
+9003,DISPOSED,HANDGUN,,Example Arms,Pocket 25,,.25acp,EX000005,Semi-auto,Nickel,,,,,,,,,,,,STORE,,1990-09-09,USED,Corner Gun Shop,60.00,,,STORE,,1992-05-01,45.00,Corner Gun Shop,,,,Trade-in,,,
+9101,HELD,SHOTGUN,,Example Arms,Pump 12,,12ga,EX000003,Pump,Parkerized,"18.5""",,,,,,,,,,,SHOW,,1991-01-12,NEW,County Fairgrounds Show,299.00,,,,,,,,,,,,,,
+9102,HELD,NFA,,Example Acoustics,Hush 22,,22lr,EXS-0004,,,,Sample NFA record.,SUPPRESSOR,FORM 4,TRUST,Example Family Trust,APPROVED,1991-02-01,1991-08-15,S000000,,STORE,,1991-08-20,NEW,Corner Gun Shop,350.00,,,,,,,,,,,,,,
