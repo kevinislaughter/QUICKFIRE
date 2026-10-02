@@ -61,7 +61,7 @@ QUICKFIRE is a sibling of the [Slaughter Cataloger](https://github.com/kevinisla
 
 ## Getting started
 
-1. Download `quickfire.html`.
+1. Download `index.html`.
 2. Open it in a browser. Double-clicking the file is fine.
 3. Press any key at the startup screen.
 4. Type `1` to log your first firearm, or `4` to open an existing ledger. `example-ledger.csv` in this repository is a fictional ledger to try it out with.
@@ -169,7 +169,7 @@ QUICKFIRE is a personal record-keeping tool. It is not an ATF bound book or a co
 
 - Built by Kevin I. Slaughter.
 - Name and spirit lifted from the Quickfire Inventory Record Screen, c. 1990.
-- Typeface: IBM VGA 9×16, from [The Ultimate Oldschool PC Font Pack](https://int10h.org/oldschool-pc-fonts/) by VileR, licensed CC BY-SA 4.0. It's embedded in `quickfire.html`, and that license applies to the font.
+- Typeface: IBM VGA 9×16, from [The Ultimate Oldschool PC Font Pack](https://int10h.org/oldschool-pc-fonts/) by VileR, licensed CC BY-SA 4.0. It's embedded in `index.html`, and that license applies to the font.
 
 ## License
 
