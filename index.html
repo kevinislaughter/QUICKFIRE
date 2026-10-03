@@ -143,10 +143,160 @@ body{
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 #filepick{display:none}
 
+/* ═════════════ QUICKFIRE 2000 ═════════════ */
+#q2{display:none}
+html.q2 body{
+  --bg:#EEF1EE; --surface:#FFFFFF; --sunk:#F5F7F5; --ink:#18201B; --muted:#5B675F; --rule:#D3DAD4;
+  --accent:#3E5A47; --accent-ink:#FFFFFF; --brass:#9C7424; --danger:#A23B2C; --focus:#2F6FD6;
+  --serif:Charter,"Bitstream Charter","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.45;
+  overflow:auto; -webkit-font-smoothing:auto; text-shadow:none;
+}
+@media (prefers-color-scheme:dark){
+  html.q2 body{ --bg:#121714; --surface:#1A201C; --sunk:#161B18; --ink:#E4E9E5; --muted:#97A39B; --rule:#2C3530;
+    --accent:#86AE92; --accent-ink:#0F1511; --brass:#D0A64E; --danger:#E0715F; --focus:#7FA8F0; }
+}
+html.q2 #crt{display:none}
+html.q2 #q2{display:block; min-height:100%}
+#q2 *{box-sizing:border-box}
+#q2 button,#q2 input,#q2 select,#q2 textarea{font:inherit;color:inherit}
+#q2 :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#q2 .num{font-variant-numeric:tabular-nums}
+#q2 .ser{font-family:var(--mono);font-size:.92em}
+
+/* header */
+.q2-head{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:12px clamp(14px,3vw,32px);background:var(--surface);border-bottom:1px solid var(--rule)}
+.q2-mark{font-family:var(--serif);font-size:1.35rem;font-weight:700;letter-spacing:-.01em;margin:0}
+.q2-mark span{font-weight:400;color:var(--muted)}
+.q2-file{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;min-width:0}
+.q2-file b{color:var(--ink);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:28ch}
+.q2-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.q2-dot.wet{background:var(--brass)}
+.q2-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.q2-btn{border:1px solid var(--rule);background:var(--surface);border-radius:6px;padding:7px 13px;cursor:pointer;white-space:nowrap}
+.q2-btn:hover{border-color:var(--muted)}
+.q2-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.q2-btn.danger{color:var(--danger)}
+.q2-btn.plain{border-color:transparent;background:transparent}
+.q2-btn:disabled{opacity:.45;cursor:default}
+.q2-menu{position:relative}
+.q2-menu-list{position:absolute;right:0;top:calc(100% + 6px);min-width:250px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:8px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.14);display:none;z-index:20}
+.q2-menu.open .q2-menu-list{display:block}
+.q2-menu-list button{display:flex;justify-content:space-between;gap:16px;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:5px;cursor:pointer}
+.q2-menu-list button:hover{background:var(--sunk)}
+.q2-menu-list small{color:var(--muted)}
+.q2-menu-list hr{border:0;border-top:1px solid var(--rule);margin:6px 4px}
+
+/* banners */
+.q2-banner{margin:14px clamp(14px,3vw,32px) 0;padding:10px 14px;border-radius:6px;border:1px solid var(--rule);background:var(--surface);
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.q2-banner.warn{border-color:var(--brass)}
+.q2-banner p{margin:0;flex:1 1 300px}
+
+/* main layout */
+.q2-main{display:grid;grid-template-columns:minmax(0,1fr);gap:0;padding:16px clamp(14px,3vw,32px) 40px}
+.q2-main.has-detail{grid-template-columns:minmax(0,1fr) minmax(340px,440px);gap:24px}
+@media (max-width:980px){ .q2-main.has-detail{grid-template-columns:minmax(0,1fr)} .q2-main.has-detail .q2-list{display:none} }
+
+.q2-tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.q2-search{flex:1 1 260px;max-width:420px;padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+.q2-seg{display:inline-flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--surface)}
+.q2-seg button{border:0;background:none;padding:7px 12px;cursor:pointer;border-right:1px solid var(--rule)}
+.q2-seg button:last-child{border-right:0}
+.q2-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.q2-count{color:var(--muted);font-size:.9rem;margin-left:auto}
+
+.q2-tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:8px}
+.q2-table{width:100%;border-collapse:collapse;font-size:.94rem}
+.q2-table th{position:sticky;top:0;background:var(--sunk);text-align:left;font-weight:600;color:var(--muted);font-size:.85rem;
+  border-bottom:1px solid var(--rule);padding:0;white-space:nowrap}
+.q2-table th button{border:0;background:none;padding:9px 12px;width:100%;text-align:inherit;cursor:pointer;color:inherit;font-weight:inherit}
+.q2-table th[aria-sort] button{color:var(--ink)}
+.q2-table td{padding:9px 12px;border-bottom:1px solid var(--rule);white-space:nowrap;max-width:22ch;overflow:hidden;text-overflow:ellipsis}
+.q2-table tbody tr{cursor:pointer}
+.q2-table tbody tr:hover td{background:var(--sunk)}
+.q2-table tbody tr[aria-selected="true"] td{background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.q2-table tbody tr:last-child td{border-bottom:0}
+.q2-table .gone td{color:var(--muted)}
+.q2-tag{display:inline-block;font-size:.78rem;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--muted)}
+.q2-tag.nfa{border-color:var(--brass);color:var(--brass)}
+.q2-tag.gone{border-style:dashed}
+
+.q2-empty{padding:56px 24px;text-align:center;background:var(--surface);border:1px dashed var(--rule);border-radius:8px}
+.q2-empty h2{font-family:var(--serif);font-weight:600;margin:0 0 6px}
+.q2-empty p{color:var(--muted);margin:0 0 18px}
+
+/* detail: the ledger card */
+.q2-card{background:var(--surface);border:1px solid var(--rule);border-radius:8px;align-self:start;position:sticky;top:76px;max-height:calc(100vh - 96px);overflow:auto}
+.q2-card-head{position:relative;padding:18px 20px 14px;border-bottom:2px solid var(--ink)}
+.q2-card-head .q2-close{position:absolute;top:10px;right:10px}
+.q2-card-head .log{color:var(--muted);font-size:.9rem}
+.q2-card-head h2{font-family:var(--serif);font-size:1.5rem;line-height:1.2;margin:2px 0 6px;font-weight:600}
+.q2-card-acts{display:flex;gap:6px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--rule)}
+.q2-sec{padding:14px 20px 4px;border-bottom:1px solid var(--rule)}
+.q2-sec:last-child{border-bottom:0}
+.q2-sec h3{font-size:.95rem;margin:0 0 8px;font-weight:600}
+.q2-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin:0}
+.q2-grid div{padding:5px 0 7px;border-bottom:1px dotted var(--rule);min-width:0}
+.q2-grid div.wide{grid-column:1 / -1}
+.q2-grid dt{font-size:.78rem;color:var(--muted)}
+.q2-grid dd{margin:1px 0 0;font-family:var(--serif);font-size:1.02rem;overflow-wrap:anywhere;white-space:pre-wrap}
+.q2-grid dd:empty::before{content:"—";color:var(--rule)}
+.q2-reps{width:100%;border-collapse:collapse;font-size:.92rem;margin-bottom:10px}
+.q2-reps td{padding:5px 0;border-bottom:1px dotted var(--rule);vertical-align:top}
+.q2-reps td:first-child{width:7.5em;color:var(--muted)}
+.q2-reps td:last-child{text-align:right;width:6em}
+
+/* editor */
+.q2-editor{background:var(--surface);border:1px solid var(--rule);border-radius:8px;width:100%;max-width:920px;margin:0 auto}
+.q2-editor header{display:flex;align-items:baseline;gap:12px;padding:18px 22px;border-bottom:2px solid var(--ink)}
+.q2-editor header h2{font-family:var(--serif);font-size:1.45rem;margin:0;font-weight:600}
+.q2-editor fieldset{border:0;border-bottom:1px solid var(--rule);margin:0;padding:16px 22px 18px}
+.q2-editor legend{font-weight:600;padding:0;margin-bottom:10px;float:left;width:100%}
+.q2-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 16px;clear:both}
+.q2-f{display:flex;flex-direction:column;gap:4px}
+.q2-f.wide{grid-column:1 / -1}
+.q2-f label{font-size:.85rem;color:var(--muted)}
+.q2-f input,.q2-f select,.q2-f textarea{padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--sunk);width:100%}
+.q2-f textarea{min-height:64px;resize:vertical}
+.q2-f[hidden]{display:none}
+.q2-f .bad{border-color:var(--danger)}
+.q2-f .msg{color:var(--danger);font-size:.82rem}
+.q2-check{display:flex;gap:8px;align-items:center;clear:both;margin-bottom:12px}
+.q2-rep-row{display:grid;grid-template-columns:150px 1fr 120px auto;gap:8px;margin-bottom:8px;align-items:center}
+.q2-rep-row input{padding:7px 9px;border:1px solid var(--rule);border-radius:6px;background:var(--sunk);width:100%}
+@media (max-width:600px){ .q2-rep-row{grid-template-columns:1fr 1fr} .q2-rep-row .d{grid-column:1 / -1} .q2-grid{grid-template-columns:1fr} }
+.q2-editor footer{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px;flex-wrap:wrap;align-items:center}
+.q2-editor footer .note{margin-right:auto;color:var(--muted);font-size:.9rem}
+
+/* dialog + toasts */
+#q2 dialog{border:1px solid var(--rule);border-radius:10px;padding:0;background:var(--surface);color:var(--ink);width:min(560px,94vw);max-height:88vh}
+#q2 dialog::backdrop{background:rgba(10,14,12,.45)}
+.q2-dlg{padding:20px 22px}
+.q2-dlg h2{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin:0 0 8px}
+.q2-dlg p{margin:0 0 12px;color:var(--muted)}
+.q2-dlg .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.q2-dlg fieldset{border:0;padding:0;margin:0 0 14px}
+.q2-dlg legend{font-weight:600;margin-bottom:6px}
+.q2-dlg label.opt2{display:flex;gap:8px;align-items:baseline;padding:3px 0}
+.q2-dlg ul{margin:0;padding-left:18px;max-height:50vh;overflow:auto;font-size:.92rem}
+.q2-pre{max-height:55vh;overflow:auto;background:var(--sunk);border:1px solid var(--rule);border-radius:6px;padding:10px;font-family:var(--mono);font-size:12px;white-space:pre;line-height:1.25}
+#q2 dialog.wide{width:min(1000px,96vw)}
+.q2-toasts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:50;max-width:min(420px,92vw)}
+.q2-toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.q2-toast.error{background:var(--danger);color:#fff}
+@media (prefers-reduced-motion:no-preference){ .q2-toast{animation:q2in .18s ease-out} @keyframes q2in{from{opacity:0;transform:translateY(6px)}} }
+#q2 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
 @media print{
   @page{margin:12mm}
   body{background:#fff;color:#000;overflow:visible;font-size:9pt;height:auto}
   #crt{display:none}
+  #q2{display:none !important}
   #printout{display:block;white-space:pre;font-family:"VGA437","Courier New",monospace;line-height:1;color:#000;text-shadow:none}
   #printout.wide{font-size:6.2pt}
   .pb{break-after:page}
@@ -164,6 +314,7 @@ body{
     <div id="dropveil">DROP THE .CSV LEDGER TO OPEN IT</div>
   </div>
 </div>
+<div id="q2"></div>
 <pre id="printout"></pre>
 <input type="file" id="filepick" accept=".csv,text/csv">
 
@@ -1088,6 +1239,7 @@ function renderStatus(){
   const right = `RECS ${s.n}  HELD ${s.h} │ ${(S.fileName || "UNSAVED").toUpperCase()}${S.dirty ? " *" : ""}${autoOn() ? " AUTO" : ""} `;
   const left = " " + (S.hint || "F1 HELP  F2 SAVE  F3 NEW  ESC MENU");
   $("statusbar").textContent = pad(left.slice(0, COLS - right.length - 2), COLS - right.length) + right;
+  if(S.ui === "q2" && typeof M !== "undefined") M.refreshFile();
 }
 
 /* PC speaker */
@@ -1131,6 +1283,11 @@ function markDirty(){
   renderStatus();
   if(autoOn()) autoWrite();
 }
+/* messages that can come from shared code land in whichever interface is showing */
+function notify(msg, kind){
+  if(S.ui === "q2") return M.toast(msg.charAt(0) + msg.slice(1).toLowerCase(), kind);
+  if(kind === "error") err(msg); else say(msg);
+}
 function markLoaded(){ S.revision = 0; S.savedRevision = 0; S.dirty = false; }
 const autoOn = () => !!(S.fileHandle && S.autosave);
 /* every write to disk goes through one queue, so autosave and F2 can't overlap */
@@ -1157,7 +1314,7 @@ function autoWrite(){
   queueWrite(() => writeFile(h, csv)).then(ok => {
     if(h !== S.fileHandle) return;            // a different ledger was opened meanwhile
     if(ok) noteSaved(rev);
-    else { S.dirty = true; renderStatus(); err(`COULD NOT WRITE TO ${S.fileName.toUpperCase()}. PRESS F2 TO SAVE BY HAND.`); }
+    else { S.dirty = true; renderStatus(); notify(`COULD NOT WRITE TO ${S.fileName.toUpperCase()}. SAVE BY HAND (F2 OR CTRL+S).`, "error"); }
   });
 }
 function recordedNote(prefix){
@@ -1171,7 +1328,7 @@ function stash(){
     S.stashOK = true;
   }catch(e){
     S.stashOK = false;
-    if(!S.stashWarned){ S.stashWarned = true; err("THIS BROWSER WON'T HOLD A RECOVERY COPY. SAVE OFTEN; UNSAVED CHANGES WILL BE LOST IF THE TAB CLOSES."); }
+    if(!S.stashWarned){ S.stashWarned = true; notify("THIS BROWSER WON'T HOLD A RECOVERY COPY. SAVE OFTEN; UNSAVED CHANGES WILL BE LOST IF THE TAB CLOSES.", "error"); }
   }
 }
 function unstash(){
@@ -1206,35 +1363,43 @@ function download(name, text, type="text/plain"){
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
 }
 
-async function saveLogbook(saveAs, then){
+/* writes the ledger; returns what happened so each interface can word it its own way */
+async function saveCore(saveAs){
   const suggested = (S.fileName || "quickfire-ledger.csv").toLowerCase();
-  const done = () => { renderStatus(); if(then) then(); };
+  let failedName = "";
   if(window.showSaveFilePicker){
-    let h = S.fileHandle;
+    let fh = S.fileHandle;
     try{
-      if(!h || saveAs) h = await window.showSaveFilePicker({ suggestedName: suggested, types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
+      if(!fh || saveAs) fh = await window.showSaveFilePicker({ suggestedName: suggested, types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
     }catch(e){
-      if(e && e.name === "AbortError"){ say(S.dirty ? "SAVE CANCELLED. THE INK IS STILL WET." : "SAVE CANCELLED."); return done(); }
-      h = null;
+      if(e && e.name === "AbortError") return { status:"cancelled" };
+      fh = null;
     }
-    if(h){
+    if(fh){
       const rev = S.revision, csv = toCSV(S.records);
-      if(await queueWrite(() => writeFile(h, csv))){
-        S.fileHandle = h; S.fileName = h.name;
+      if(await queueWrite(() => writeFile(fh, csv))){
+        S.fileHandle = fh; S.fileName = fh.name;
         noteSaved(rev);
-        ok(`LEDGER WRITTEN TO ${S.fileName.toUpperCase()}  (${S.records.length} RECORD${S.records.length===1?"":"S"})`);
-        beep(1320,.05);
-        return done();
+        return { status:"saved", name:S.fileName };
       }
-      err(`COULD NOT WRITE TO ${h.name.toUpperCase()}. DOWNLOADING A COPY INSTEAD.`);
+      failedName = fh.name;
     }
   }
   const rev = S.revision;
   download(suggested, toCSV(S.records), "text/csv");
   S.fileName = suggested;
   noteSaved(rev);
-  ok(`DOWNLOAD STARTED: ${suggested.toUpperCase()}. CHECK YOUR DOWNLOADS FOLDER. THIS BROWSER CAN'T WRITE IN PLACE, SO EACH SAVE IS A NEW COPY.`);
-  done();
+  return { status:"downloaded", name:suggested, failedName };
+}
+async function saveLogbook(saveAs, then){
+  const r = await saveCore(saveAs);
+  if(r.status === "cancelled") say(S.dirty ? "SAVE CANCELLED. THE INK IS STILL WET." : "SAVE CANCELLED.");
+  else if(r.status === "saved"){ ok(`LEDGER WRITTEN TO ${r.name.toUpperCase()}  (${S.records.length} RECORD${S.records.length===1?"":"S"})`); beep(1320,.05); }
+  else {
+    if(r.failedName) err(`COULD NOT WRITE TO ${r.failedName.toUpperCase()}. DOWNLOADING A COPY INSTEAD.`);
+    ok(`DOWNLOAD STARTED: ${r.name.toUpperCase()}. CHECK YOUR DOWNLOADS FOLDER. THIS BROWSER CAN'T WRITE IN PLACE, SO EACH SAVE IS A NEW COPY.`);
+  }
+  renderStatus(); if(then) then();
 }
 
 function confirmDiscard(action, proceed){
@@ -1244,32 +1409,43 @@ function confirmDiscard(action, proceed){
   opts([["Y","Y","DISCARD THEM"],["N","N","KEEP WORKING"]]);
   ask("DISCARD?", v => { if(/^Y/i.test(v.trim())) proceed(); else back(); }, "Y DISCARD  N CANCEL");
 }
-async function openLogbook(allowDiscard){
-  if(S.dirty && !allowDiscard) return confirmDiscard("OPENING ANOTHER LEDGER", () => openLogbook(true));
+/* asks the browser for a ledger file: {text,name,handle}, null if cancelled, or "fallback" for the plain file input */
+async function pickLedgerFile(){
   if(window.showOpenFilePicker){
     try{
-      const [h] = await window.showOpenFilePicker({ types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
-      const f = await h.getFile();
-      loadText(await f.text(), f.name, h);
-      return;
+      const [fh] = await window.showOpenFilePicker({ types:[{ description:"CSV ledger", accept:{ "text/csv":[".csv"] } }] });
+      const f = await fh.getFile();
+      return { text: await f.text(), name: f.name, handle: fh };
     }catch(e){
-      if(e && e.name === "AbortError"){ say("NOTHING OPENED. THE CURRENT LEDGER IS UNCHANGED."); return; }
+      if(e && e.name === "AbortError") return null;
     }
   }
-  $("filepick").click();
-  say("CHOOSE A .CSV FILE IN THE DIALOG, OR DROP ONE ONTO THE SCREEN.");
+  return "fallback";
+}
+async function openLogbook(allowDiscard){
+  if(S.dirty && !allowDiscard) return confirmDiscard("OPENING ANOTHER LEDGER", () => openLogbook(true));
+  const f = await pickLedgerFile();
+  if(f === null) return say("NOTHING OPENED. THE CURRENT LEDGER IS UNCHANGED.");
+  if(f === "fallback"){ $("filepick").click(); return say("CHOOSE A .CSV FILE IN THE DIALOG, OR DROP ONE ONTO THE SCREEN."); }
+  loadText(f.text, f.name, f.handle);
 }
 /* the only place a ledger is replaced: validate first, touch S only on success */
-function loadText(text, name, handle){
+function adoptLedger(text, name, handle){
   const res = parseLedger(text);
+  if(res.errors.length) return res;
+  S.records = res.records; S.fileName = name; S.fileHandle = handle || null;
+  markLoaded(); stash();
+  S.lastWarnings = res.warnings;
+  return res;
+}
+function loadText(text, name, handle){
+  const res = adoptLedger(text, name, handle);
   if(res.errors.length){
     err(`COULD NOT LOAD ${name.toUpperCase()}. NOTHING WAS CHANGED.`);
     res.errors.slice(0, 6).forEach(m => say("  " + m));
     if(res.errors.length > 6) say(`  ...AND ${res.errors.length - 6} MORE.`);
     return false;
   }
-  S.records = res.records; S.fileName = name; S.fileHandle = handle || null;
-  markLoaded(); stash();
   goMenu(`OPENED ${name.toUpperCase()}: ${res.records.length} RECORD${res.records.length===1?"":"S"} READ.` +
     (handle ? "" : window.showSaveFilePicker ? " NOT BOUND: F2 WILL ASK WHERE TO WRITE." : " SAVES WILL DOWNLOAD A NEW COPY."));
   if(res.warnings.length){
@@ -1277,7 +1453,6 @@ function loadText(text, name, handle){
     res.warnings.slice(0, 5).forEach(m => say("  " + m, "dim"));
     if(res.warnings.length > 5) say(`  ...AND ${res.warnings.length - 5} MORE. TYPE CHECK TO SEE THEM ALL.`, "dim");
   }
-  S.lastWarnings = res.warnings;
   beep(1320,.05);
   return true;
 }
@@ -1317,6 +1492,8 @@ function globalVerb(input){
     case "SAVE": saveLogbook(rest[0] === "AS"); return true;
     case "OPEN": case "LOAD": case "RESTORE": openLogbook(); return true;
     case "EXPORT": case "PRINT": case "OUTPUT": exportStart(null); return true;
+    case "2000": case "MODERN": setUI("q2"); return true;
+    case "QUICKFIRE": if(rest[0] === "2000"){ setUI("q2"); return true; } break;
     case "RECOVERY":
       setRecovery(!S.recovery);
       say(S.recovery ? (S.stashOK ? "RECOVERY COPY ON. A PLAINTEXT COPY OF THE LEDGER IS KEPT IN THIS BROWSER'S LOCAL STORAGE." : "RECOVERY COPY ON, BUT THIS BROWSER IS REFUSING TO STORE IT.")
@@ -1969,6 +2146,7 @@ function showHelp(){
    RECOVERY            TOGGLE THE BROWSER RECOVERY COPY (OFF ERASES IT)
    CHECK               LIST WARNINGS FROM THE LAST FILE OPENED
    SOUND               TOGGLE THE PC SPEAKER
+   2000                SWITCH TO QUICKFIRE 2000, THE PLAIN WEB VERSION
    ABOUT               VERSION AND CREDITS
 
  DURING AN ENTRY
@@ -1996,6 +2174,459 @@ function showAbout(){
  TYPEFACE: IBM VGA 9x16 FROM THE ULTIMATE OLDSCHOOL PC FONT PACK BY VILER,
  INT10H.ORG, CC BY-SA 4.0.`, "dim");
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   QUICKFIRE 2000 — the same ledger as a plain web application.
+   Shares every data, file and export function with the terminal;
+   only the presentation differs.
+   ═══════════════════════════════════════════════════════════════════════ */
+const UI_PREF = "quickfire:ui";
+const M = {
+  root: null, sel: null, editing: null, q: "", filter: "ALL", sort: { key:"log_no", dir:1 },
+  restore: null, warnings: null, view: "list",
+};
+const h = (s) => esc(s == null ? "" : s);
+const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+
+function setUI(mode){
+  S.ui = mode;
+  try{ localStorage.setItem(UI_PREF, mode); }catch(e){}
+  document.documentElement.classList.toggle("q2", mode === "q2");
+  if(mode === "q2"){ S.booting = false; M.render(); }
+  else { $("q2").innerHTML = ""; fit(); goMenu(); focusIn(); }
+}
+function savedUI(){ try{ return localStorage.getItem(UI_PREF) || "classic"; }catch(e){ return "classic"; } }
+
+/* ---------- small building blocks ---------- */
+M.toast = (msg, kind) => {
+  const box = $("q2").querySelector(".q2-toasts"); if(!box) return;
+  const t = document.createElement("div");
+  t.className = "q2-toast" + (kind === "error" ? " error" : "");
+  t.setAttribute("role", kind === "error" ? "alert" : "status");
+  t.textContent = msg; box.appendChild(t);
+  setTimeout(() => t.remove(), kind === "error" ? 9000 : 4500);
+};
+M.dialog = (html, opts = {}) => new Promise(resolve => {
+  const d = document.createElement("dialog");
+  if(opts.wide) d.className = "wide";
+  d.innerHTML = `<form method="dialog" class="q2-dlg">${html}</form>`;
+  $("q2").appendChild(d);
+  d.addEventListener("close", () => { const v = d.returnValue; const fd = new FormData(d.querySelector("form")); d.remove(); resolve({ value:v, data:fd }); });
+  if(opts.onOpen) opts.onOpen(d);
+  d.showModal();
+});
+M.confirm = async (title, body, okLabel, danger) => {
+  const r = await M.dialog(`<h2>${h(title)}</h2><p>${h(body)}</p>
+    <div class="acts"><button class="q2-btn" value="cancel">Cancel</button>
+    <button class="q2-btn ${danger ? "danger" : "primary"}" value="ok">${h(okLabel)}</button></div>`);
+  return r.value === "ok";
+};
+const fmtShort = iso => iso ? fmtDate(iso) : "";
+const cap = v => v ? v.charAt(0) + v.slice(1).toLowerCase() : "";
+const NFA_LABEL = { "SUPPRESSOR":"Suppressor", "SBR":"SBR", "SBS":"SBS", "AOW":"AOW", "MACHINE GUN":"Machine gun", "DESTRUCTIVE DEVICE":"Destructive device" };
+const typeLabel = r => isNFA(r) ? (NFA_LABEL[r.nfa_item] || "NFA item") : (r.type === "OTHER" ? (r.type_other || "Other") : (r.type ? r.type.charAt(0) + r.type.slice(1).toLowerCase() : ""));
+const titleOf = r => [r.make, r.model].filter(Boolean).join(" ") || typeLabel(r) || "Untitled entry";
+
+/* ---------- whole-page render ---------- */
+M.fileHTML = () => {
+  const state = S.dirty ? "Unsaved changes" : (S.fileName ? (autoOn() ? "Saved, autosave on" : "Saved") : "Not saved yet");
+  const tip = S.fileHandle ? "Saves write to this file" : S.fileName ? "Not linked to the file: saving asks where to write, or downloads a copy" : "";
+  return `<span class="q2-dot ${S.dirty ? "wet" : ""}" aria-hidden="true"></span>${S.fileName ? `<b title="${h(tip)}">${h(S.fileName)}</b>` : ""}<span>${h(state)}</span>`;
+};
+M.refreshFile = () => {
+  const f = $("q2").querySelector(".q2-file"); if(f) f.innerHTML = M.fileHTML();
+  document.title = (S.dirty ? "• " : "") + "Quickfire 2000" + (S.fileName ? " — " + S.fileName : "");
+};
+M.render = () => {
+  const root = $("q2");
+  const keepToasts = root.querySelector(".q2-toasts");
+  const st = stats(), nfa = S.records.filter(isNFA).length;
+  root.innerHTML = `
+  <header class="q2-head">
+    <h1 class="q2-mark">Quickfire <span>2000</span></h1>
+    <div class="q2-file">${M.fileHTML()}</div>
+    <div class="q2-actions">
+      <button class="q2-btn primary" data-act="new">New entry</button>
+      <button class="q2-btn" data-act="open">Open</button>
+      <button class="q2-btn" data-act="save" ${S.records.length || S.fileName ? "" : "disabled"}>Save</button>
+      <button class="q2-btn" data-act="export" ${S.records.length ? "" : "disabled"}>Export</button>
+      <div class="q2-menu">
+        <button class="q2-btn" data-act="menu" aria-haspopup="true" aria-expanded="false">More</button>
+        <div class="q2-menu-list" role="menu">
+          <button data-act="saveas" role="menuitem">Save as…</button>
+          <button data-act="autosave" role="menuitem">Autosave <small>${S.autosave ? "On" : "Off"}</small></button>
+          <button data-act="recovery" role="menuitem">Browser recovery copy <small>${S.recovery ? "On" : "Off"}</small></button>
+          <button data-act="warnings" role="menuitem">File warnings <small>${(S.lastWarnings || []).length}</small></button>
+          <hr><button data-act="fresh" role="menuitem">Start a new ledger</button>
+          <hr><button data-act="classic" role="menuitem">Switch to classic Quickfire</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  ${M.restore ? `<div class="q2-banner warn"><p>A recovery copy from ${h(new Date(M.restore.savedAt).toLocaleString())} is still in this browser (${plural(M.restore.records.length, "record")}${M.restore.dirty ? ", with changes that were never saved to a file" : ""}).</p>
+     <button class="q2-btn primary" data-act="restore">Restore it</button><button class="q2-btn" data-act="discardrestore">Discard it</button></div>` : ""}
+  ${M.warnings && M.warnings.length ? `<div class="q2-banner warn"><p>${plural(M.warnings.length, "warning")} while opening ${h(S.fileName)}. The ledger loaded; some values may need a look.</p>
+     <button class="q2-btn" data-act="warnings">Show warnings</button><button class="q2-btn plain" data-act="dismisswarn">Dismiss</button></div>` : ""}
+  ${S.recovery && !S.stashOK ? `<div class="q2-banner warn"><p>This browser won't store a recovery copy. Save often: unsaved changes are lost if the tab closes.</p></div>` : ""}
+  ${M.view === "edit" ? `<main class="q2-main">${M.editorHTML()}</main>` : M.listHTML(st, nfa)}
+  <div class="q2-toasts" aria-live="polite"></div>`;
+  if(keepToasts) root.querySelector(".q2-toasts").replaceWith(keepToasts);
+  if(M.view === "edit") M.wireEditor();
+  document.title = (S.dirty ? "• " : "") + "Quickfire 2000" + (S.fileName ? " — " + S.fileName : "");
+};
+
+/* ---------- list + detail ---------- */
+M.list = () => {
+  let list = S.records.slice();
+  if(M.filter === "HELD") list = list.filter(r => !isDisposed(r));
+  if(M.filter === "DISPOSED") list = list.filter(isDisposed);
+  if(M.filter === "NFA") list = list.filter(isNFA);
+  if(M.q){
+    const q = M.q.toLowerCase();
+    list = list.filter(r => CSV_COLS.some(c => c !== "repairs" && String(r[c] || "").toLowerCase().includes(q))
+      || r.repairs.some(x => [x.desc, x.date, fmtDate(x.date), x.cost].some(v => String(v || "").toLowerCase().includes(q))));
+  }
+  const k = M.sort.key, dir = M.sort.dir;
+  const val = r => k === "type" ? typeLabel(r) : k === "status" ? (isDisposed(r) ? "Disposed" : "Held") : (r[k] || "");
+  list.sort((a,b) => {
+    const A = val(a), B = val(b);
+    if(!A && B) return 1; if(A && !B) return -1;
+    return dir * String(A).localeCompare(String(B), undefined, { numeric:true, sensitivity:"base" });
+  });
+  return list;
+};
+M.listHTML = (st, nfa) => {
+  if(!S.records.length) return `<main class="q2-main"><div class="q2-empty">
+      <h2>${S.fileName ? "This ledger is empty" : "No ledger open"}</h2>
+      <p>Open an existing ledger file, or start with your first entry.</p>
+      <button class="q2-btn primary" data-act="new">New entry</button> <button class="q2-btn" data-act="open">Open a ledger</button>
+      <p style="margin-top:14px">You can also drop a .csv file anywhere on this page.</p></div></main>`;
+  const list = M.list();
+  const cols = [["log_no","Log"],["type","Type"],["make","Make"],["model","Model"],["caliber","Caliber"],["serial","Serial"],["acq_date","Acquired"],["status","Status"]];
+  const segs = [["ALL","All",st.n],["HELD","Held",st.h],["DISPOSED","Disposed",st.d],["NFA","NFA",nfa]];
+  const sel = M.sel && S.records.includes(M.sel) ? M.sel : null;
+  return `<main class="q2-main ${sel ? "has-detail" : ""}">
+  <section class="q2-list" aria-label="Ledger">
+    <div class="q2-tools">
+      <input class="q2-search" type="search" placeholder="Search make, serial, notes, names…" value="${h(M.q)}" aria-label="Search the ledger" data-act="search">
+      <div class="q2-seg" role="group" aria-label="Show">${segs.map(([k,l,n]) => `<button data-filter="${k}" aria-pressed="${M.filter === k}">${l} <span class="num">${n}</span></button>`).join("")}</div>
+      <span class="q2-count num">${list.length === st.n ? plural(st.n, "entry").replace("entrys","entries") : `${list.length} of ${st.n} shown`}</span>
+    </div>
+    <div class="q2-tablewrap"><table class="q2-table">
+      <thead><tr>${cols.map(([k,l]) => `<th ${M.sort.key === k ? `aria-sort="${M.sort.dir > 0 ? "ascending" : "descending"}"` : ""}><button data-sort="${k}">${l}${M.sort.key === k ? (M.sort.dir > 0 ? " ▲" : " ▼") : ""}</button></th>`).join("")}</tr></thead>
+      <tbody>${list.map(r => `<tr data-idx="${S.records.indexOf(r)}" tabindex="0" aria-selected="${r === sel}" class="${isDisposed(r) ? "gone" : ""}">
+        <td class="num">${h(r.log_no)}</td>
+        <td>${isNFA(r) ? `<span class="q2-tag nfa">${h(typeLabel(r))}</span>` : h(typeLabel(r))}</td>
+        <td>${h(r.make)}</td><td>${h(r.model)}</td><td>${h(r.caliber)}</td><td class="ser">${h(r.serial)}</td>
+        <td class="num">${h(fmtShort(r.acq_date))}</td>
+        <td>${isDisposed(r) ? `<span class="q2-tag gone">Disposed</span>` : "Held"}</td></tr>`).join("")}
+      </tbody></table></div>
+    ${!list.length ? `<p style="color:var(--muted)">Nothing matches. <button class="q2-btn plain" data-act="clearsearch">Clear the search and filter</button></p>` : ""}
+  </section>
+  ${sel ? M.cardHTML(sel) : ""}
+  </main>`;
+};
+const dl = (label, value, wide) => `<div class="${wide ? "wide" : ""}"><dt>${h(label)}</dt><dd>${h(value)}</dd></div>`;
+M.cardHTML = r => {
+  const gone = isDisposed(r);
+  return `<aside class="q2-card" aria-label="Entry ${h(r.log_no)}">
+    <div class="q2-card-head"><button class="q2-btn plain q2-close" data-act="close">Close</button><div class="log">Log ${h(r.log_no || "—")}${gone ? " · disposed" : ""}</div>
+      <h2>${h(titleOf(r))}</h2>
+      <span class="q2-tag ${isNFA(r) ? "nfa" : ""}">${h(isNFA(r) ? "NFA: " + typeLabel(r) : typeLabel(r) || "No type")}</span></div>
+    <div class="q2-card-acts">
+      <button class="q2-btn primary" data-act="edit">Edit</button>
+      <button class="q2-btn" data-act="exportone">Export</button>
+      ${gone ? `<button class="q2-btn" data-act="undispose">Mark as held</button>` : `<button class="q2-btn" data-act="dispose">Record disposition</button>`}
+      <button class="q2-btn danger" data-act="delete">Delete</button>
+    </div>
+    <section class="q2-sec"><h3>Description</h3><dl class="q2-grid">
+      ${dl("Make", r.make)}${dl("Model", r.model)}${dl("Year", r.year)}${dl(r.type === "SHOTGUN" || r.nfa_item === "SBS" ? "Gauge" : "Caliber", r.caliber)}
+      ${dl("Serial", r.serial)}${isSuppressor(r) ? "" : dl("Action", r.action)}${dl("Finish", r.finish)}${isSuppressor(r) ? "" : dl("Barrel", r.barrel)}
+      ${dl("Notes", r.notes, true)}</dl></section>
+    ${isNFA(r) ? `<section class="q2-sec"><h3>NFA registration</h3><dl class="q2-grid">
+      ${dl("Item", typeLabel(r))}${dl("Form", cap(r.nfa_form))}${dl("Registered to", cap(r.nfa_registrant_type))}${dl("Status", cap(r.nfa_status))}
+      ${dl("Registrant", r.nfa_registrant, true)}${dl("Submitted", fmtShort(r.nfa_submitted))}${dl("Approved", fmtShort(r.nfa_approved))}
+      ${dl("Tax stamp", r.nfa_stamp)}${hasOAL(r) ? dl("Overall length", r.nfa_oal) : ""}</dl></section>` : ""}
+    <section class="q2-sec"><h3>Received</h3><dl class="q2-grid">
+      ${dl("Date", fmtShort(r.acq_date))}${dl("How", r.acq_source === "OTHER" ? r.acq_source_other || "Other" : cap(r.acq_source))}${dl("Condition", cap(r.acq_condition))}${dl("Cost", fmtMoney(r.acq_cost))}
+      ${dl("From", r.acq_name, true)}${dl("FFL # or address", r.acq_address, true)}</dl></section>
+    <section class="q2-sec"><h3>Repairs and modifications</h3>
+      ${r.repairs.length ? `<table class="q2-reps"><tbody>${r.repairs.map(x => `<tr><td class="num">${h(fmtShort(x.date))}</td><td>${h(x.desc)}</td><td class="num">${h(fmtMoney(x.cost))}</td></tr>`).join("")}</tbody></table>` : `<p style="color:var(--muted);margin:0 0 10px">None recorded.</p>`}</section>
+    ${gone ? `<section class="q2-sec"><h3>Disposed</h3><dl class="q2-grid">
+      ${dl("Date", fmtShort(r.disp_date))}${dl("How", r.disp_source === "OTHER" ? r.disp_source_other || "Other" : cap(r.disp_source))}${dl("Price", fmtMoney(r.disp_price))}${dl("Phone", r.disp_phone)}
+      ${dl("To", r.disp_name, true)}${dl("ID #", r.disp_id)}${dl("Date of birth", fmtShort(r.disp_dob))}
+      ${dl("Other", r.disp_other, true)}${dl("Address", r.disp_address, true)}</dl></section>` : ""}
+  </aside>`;
+};
+
+/* ---------- editor ---------- */
+const sel = (list, labels) => list.map((v,i) => [v, labels ? labels[i] : v.charAt(0) + v.slice(1).toLowerCase()]);
+const EF = [
+  { sec:"Description" },
+  { k:"log_no", l:"Log number", req:true },
+  { k:"type", l:"Type", opts:sel(CH_TYPE, ["Rifle","Shotgun","Handgun","NFA item","Other"]) },
+  { k:"nfa_item", l:"NFA item", opts:sel(CH_NFA_ITEM, ["Suppressor","Short-barreled rifle (SBR)","Short-barreled shotgun (SBS)","Any other weapon (AOW)","Machine gun","Destructive device"]), show:isNFA },
+  { k:"type_other", l:"What kind", show:r => r.type === "OTHER" },
+  { k:"make", l:"Manufacturer or importer" }, { k:"model", l:"Model" }, { k:"year", l:"Year" },
+  { k:"caliber", l:r => r.type === "SHOTGUN" || r.nfa_item === "SBS" ? "Gauge" : "Caliber" },
+  { k:"serial", l:"Serial number" },
+  { k:"action", l:"Action", show:r => !isSuppressor(r) }, { k:"finish", l:"Finish" },
+  { k:"barrel", l:"Barrel", show:r => !isSuppressor(r) },
+  { k:"notes", l:"Notes", area:true, wide:true },
+  { sec:"NFA registration", show:isNFA },
+  { k:"nfa_form", l:"ATF form", opts:sel(CH_NFA_FORM, ["Form 4 (transfer)","Form 1 (make)","Form 5 (tax-exempt)","Other"]) },
+  { k:"nfa_registrant_type", l:"Registered to", opts:sel(CH_NFA_REG) },
+  { k:"nfa_registrant", l:"Registrant name" },
+  { k:"nfa_status", l:"Status", opts:sel(CH_NFA_STATUS) },
+  { k:"nfa_submitted", l:"Submitted", date:true },
+  { k:"nfa_approved", l:"Approved", date:true, show:r => r.nfa_status !== "PENDING" },
+  { k:"nfa_stamp", l:"Tax stamp serial", show:r => r.nfa_status !== "PENDING" },
+  { k:"nfa_oal", l:"Overall length", show:hasOAL },
+  { sec:"Received" },
+  { k:"acq_source", l:"How", opts:sel(CH_SRC, ["Store","Gun show","Private party","Other"]) },
+  { k:"acq_source_other", l:"Other how", show:r => r.acq_source === "OTHER" },
+  { k:"acq_date", l:"Date", date:true },
+  { k:"acq_condition", l:"Condition", opts:sel(CH_COND) },
+  { k:"acq_cost", l:"Cost", money:true },
+  { k:"acq_name", l:"From (company or name)", wide:true },
+  { k:"acq_address", l:"FFL # or address", area:true, wide:true },
+  { sec:"Repairs and modifications", repairs:true },
+  { sec:"Disposition", disposition:true },
+  { k:"disp_source", l:"How", opts:sel(CH_SRC, ["Store","Gun show","Private party","Other"]), show:(r,w) => w.gone },
+  { k:"disp_source_other", l:"Other how", show:(r,w) => w.gone && r.disp_source === "OTHER" },
+  { k:"disp_date", l:"Date", date:true, show:(r,w) => w.gone },
+  { k:"disp_price", l:"Price", money:true, show:(r,w) => w.gone },
+  { k:"disp_name", l:"To (name)", wide:true, show:(r,w) => w.gone },
+  { k:"disp_id", l:"ID #", show:(r,w) => w.gone },
+  { k:"disp_phone", l:"Phone", show:(r,w) => w.gone },
+  { k:"disp_dob", l:"Date of birth", date:true, show:(r,w) => w.gone },
+  { k:"disp_other", l:"Other", show:(r,w) => w.gone },
+  { k:"disp_address", l:"Address", area:true, wide:true, show:(r,w) => w.gone },
+];
+M.startEdit = (rec, isNew, opts = {}) => {
+  const r = clone(rec);
+  if(isNew) r.log_no = nextLogNo();
+  M.editing = { orig: isNew ? null : rec, rec: r, isNew, gone: opts.gone ?? isDisposed(rec), focus: opts.focus };
+  M.view = "edit"; M.render(); window.scrollTo(0,0);
+};
+M.editorHTML = () => {
+  const E = M.editing, r = E.rec;
+  let html = "", open = false;
+  const close = () => open ? "</div></fieldset>" : "";
+  EF.forEach((f, i) => {
+    if(f.sec){
+      html += close(); open = true;
+      html += `<fieldset data-sec="${i}"><legend>${f.sec}</legend>`;
+      if(f.disposition) html += `<label class="q2-check"><input type="checkbox" data-gone ${E.gone ? "checked" : ""}> No longer in my possession</label>`;
+      html += `<div class="q2-fields">`;
+      if(f.repairs) html += `<div class="q2-f wide" id="q2-reps">${r.repairs.map(M.repRow).join("")}<button type="button" class="q2-btn" data-act="addrep">Add a repair or modification</button></div>`;
+      return;
+    }
+    const id = "q2f-" + f.k, label = typeof f.l === "function" ? f.l(r) : f.l;
+    let v = r[f.k] || "";
+    let input;
+    if(f.opts) input = `<select id="${id}" name="${f.k}"><option value=""></option>${f.opts.map(([val,lab]) => `<option value="${val}" ${v === val ? "selected" : ""}>${h(lab)}</option>`).join("")}</select>`;
+    else if(f.area) input = `<textarea id="${id}" name="${f.k}">${h(v)}</textarea>`;
+    else if(f.date) input = `<input id="${id}" name="${f.k}" type="date" value="${h(/^\d{4}-\d{2}-\d{2}$/.test(v) ? v : "")}">`;
+    else if(f.money) input = `<input id="${id}" name="${f.k}" inputmode="decimal" value="${h(v ? Number(v).toFixed(2) : "")}" placeholder="0.00">`;
+    else input = `<input id="${id}" name="${f.k}" value="${h(v)}" ${f.req ? "required" : ""} autocomplete="off">`;
+    html += `<div class="q2-f ${f.wide ? "wide" : ""}" data-f="${i}"><label for="${id}">${h(label)}</label>${input}<span class="msg" aria-live="polite"></span></div>`;
+  });
+  html += close();
+  return `<form class="q2-editor" novalidate>
+    <header><h2>${E.isNew ? "New entry" : "Edit " + h(titleOf(E.orig))}</h2></header>
+    ${html}
+    <footer><span class="note">${E.isNew ? "Log numbers follow the year and the order of arrival." : "Changes apply when you save the entry."}</span>
+      <button type="button" class="q2-btn" data-act="canceledit">Cancel</button>
+      <button type="submit" class="q2-btn primary">${E.isNew ? "Add to ledger" : "Save entry"}</button></footer>
+  </form>`;
+};
+M.repRow = x => `<div class="q2-rep-row"><input type="date" aria-label="Date" value="${h(x.date)}" data-rep="date">
+  <input class="d" aria-label="Description" value="${h(x.desc)}" data-rep="desc" placeholder="What was done, and by whom">
+  <input aria-label="Cost" inputmode="decimal" value="${h(x.cost ? Number(x.cost).toFixed(2) : "")}" data-rep="cost" placeholder="Cost">
+  <button type="button" class="q2-btn plain" data-act="delrep" aria-label="Remove this line">Remove</button></div>`;
+M.readForm = () => {
+  const E = M.editing, form = $("q2").querySelector(".q2-editor");
+  EF.forEach(f => { if(f.k){ const el = form.elements[f.k]; if(el) E.rec[f.k] = el.value.trim(); } });
+  E.gone = !!form.querySelector("[data-gone]").checked;
+  E.rec.repairs = [...form.querySelectorAll(".q2-rep-row")].map(row => ({
+    date: row.querySelector('[data-rep="date"]').value, desc: row.querySelector('[data-rep="desc"]').value.trim(), cost: row.querySelector('[data-rep="cost"]').value.trim() }));
+};
+M.applyVisibility = () => {
+  const E = M.editing, form = $("q2").querySelector(".q2-editor"); if(!form) return;
+  let secShown = true;
+  EF.forEach((f, i) => {
+    if(f.sec){ const fs = form.querySelector(`[data-sec="${i}"]`); secShown = !f.show || f.show(E.rec, E); fs.hidden = !secShown; return; }
+    const box = form.querySelector(`[data-f="${i}"]`);
+    box.hidden = !secShown || (f.show && !f.show(E.rec, E));
+    if(typeof f.l === "function") box.querySelector("label").textContent = f.l(E.rec);
+  });
+};
+M.wireEditor = () => {
+  const form = $("q2").querySelector(".q2-editor");
+  M.applyVisibility();
+  form.addEventListener("input", () => { M.readForm(); M.applyVisibility(); });
+  form.addEventListener("change", () => { M.readForm(); M.applyVisibility(); });
+  form.addEventListener("submit", e => { e.preventDefault(); M.commitEdit(); });
+  const first = M.editing.focus ? form.querySelector(`[name="${M.editing.focus}"]`) : form.querySelector("input,select");
+  if(first) first.focus();
+};
+M.commitEdit = () => {
+  M.readForm();
+  const E = M.editing, r = E.rec, form = $("q2").querySelector(".q2-editor");
+  form.querySelectorAll(".msg").forEach(m => m.textContent = "");
+  form.querySelectorAll(".bad").forEach(m => m.classList.remove("bad"));
+  const bad = [];
+  const flag = (k, msg) => { const el = form.elements[k]; if(el){ el.classList.add("bad"); el.closest(".q2-f").querySelector(".msg").textContent = msg; } bad.push(el); };
+  if(!r.log_no) flag("log_no", "Every entry needs a log number.");
+  else if(S.records.some(x => x !== E.orig && String(x.log_no).toUpperCase() === r.log_no.toUpperCase())) flag("log_no", `Log ${r.log_no} is already in the ledger.`);
+  ["acq_cost","disp_price"].forEach(k => { if(r[k]){ const p = parseMoney(r[k]); if(p.ok) r[k] = p.v; else flag(k, "Enter an amount, like 450 or 1,295.00."); } });
+  let repBad = false;
+  r.repairs = r.repairs.filter(x => x.date || x.desc || x.cost).map(x => { if(x.cost){ const p = parseMoney(x.cost); if(p.ok) x.cost = p.v; else repBad = true; } return x; });
+  if(repBad){ M.toast("A repair cost isn't an amount. Use numbers like 85 or 12.50.", "error"); return; }
+  if(bad.length){ bad[0] && bad[0].focus(); return; }
+  if(!E.gone) DISP_KEYS.forEach(k => r[k] = "");
+  if(!isNFA(r)) NFA_KEYS.forEach(k => r[k] = "");
+  if(r.nfa_status === "PENDING"){ r.nfa_approved = ""; r.nfa_stamp = ""; }
+  if(!hasOAL(r)) r.nfa_oal = "";
+  if(isSuppressor(r)){ r.action = ""; r.barrel = ""; }
+  if(r.type !== "OTHER") r.type_other = "";
+  if(r.acq_source !== "OTHER") r.acq_source_other = "";
+  if(r.disp_source !== "OTHER") r.disp_source_other = "";
+  r.status = E.gone ? "DISPOSED" : "HELD";
+  const now = stamp(); r.modified = now; if(!r.created) r.created = now;
+  if(E.isNew) S.records.push(r); else { const i = S.records.indexOf(E.orig); if(i >= 0) S.records[i] = r; else S.records.push(r); }
+  const dupSer = r.serial && S.records.filter(x => x !== r && x.serial && x.serial.toUpperCase() === r.serial.toUpperCase());
+  M.editing = null; M.view = "list"; M.sel = r;
+  markDirty(); M.render();
+  M.toast((E.isNew ? `Added log ${r.log_no}.` : `Saved log ${r.log_no}.`) + (autoOn() ? "" : " Save the ledger to write it to the file."));
+  if(dupSer && dupSer.length) M.toast(`Serial ${r.serial} also appears on log ${dupSer.map(x => x.log_no).join(", ")}.`, "error");
+};
+
+/* ---------- file actions ---------- */
+M.save = async saveAs => {
+  const r = await saveCore(saveAs);
+  if(r.status === "saved") M.toast(`Saved ${plural(S.records.length, "entry").replace("entrys","entries")} to ${r.name}.`);
+  else if(r.status === "downloaded") M.toast(`${r.failedName ? `Couldn't write to ${r.failedName}. ` : ""}Download started: ${r.name}. This browser saves by downloading a new copy.`, r.failedName ? "error" : "");
+  else if(r.status === "cancelled") M.toast("Save cancelled.");
+  M.render();
+};
+M.adopt = (text, name, handle) => {
+  const res = adoptLedger(text, name, handle);
+  if(res.errors.length){
+    M.dialog(`<h2>Couldn't open ${h(name)}</h2><p>Nothing was changed; your current ledger is as it was.</p>
+      <ul>${res.errors.slice(0, 12).map(e => `<li>${h(e)}</li>`).join("")}</ul>${res.errors.length > 12 ? `<p>…and ${res.errors.length - 12} more.</p>` : ""}
+      <div class="acts"><button class="q2-btn primary" value="ok">OK</button></div>`);
+    return;
+  }
+  M.sel = null; M.view = "list"; M.editing = null; M.restore = null; M.warnings = res.warnings;
+  M.render(); M.toast(`Opened ${name}: ${plural(res.records.length, "entry").replace("entrys","entries")}.`);
+};
+M.guardDiscard = async action => !S.dirty || M.confirm("Discard unsaved changes?", `The current ledger has changes that aren't saved to a file. ${action} will discard them.`, "Discard changes", true);
+M.open = async () => {
+  if(!(await M.guardDiscard("Opening another ledger"))) return;
+  const f = await pickLedgerFile();
+  if(f === "fallback") return $("filepick").click();
+  if(f) M.adopt(f.text, f.name, f.handle);
+};
+M.showWarnings = () => {
+  const w = S.lastWarnings || [];
+  M.dialog(`<h2>File warnings</h2>${w.length ? `<p>From the last file opened. The ledger loaded; these values may need a look.</p><ul>${w.map(x => `<li>${h(x)}</li>`).join("")}</ul>` : "<p>No warnings from the last file opened.</p>"}
+    <div class="acts"><button class="q2-btn primary" value="ok">Close</button></div>`);
+};
+M.exportDialog = async single => {
+  const st = stats(), view = M.list();
+  const scopes = single ? [] : [["all", `Whole ledger (${st.n})`], ["held", `Held (${st.h})`], ["disposed", `Disposed (${st.d})`], ["view", `What's shown now (${view.length})`]];
+  const labels = { screens:"Record sheets (text)", dotmatrix:"Record sheets, 1990 printer style (text)", ledger:"Ledger, one line per item (text, 132 columns)", clean:"Clean list: log, make, model, caliber, serial (text)", csv:"Spreadsheet (CSV)", json:"JSON" };
+  const r = await M.dialog(`<h2>Export ${single ? "log " + h(single.log_no) : "the ledger"}</h2>
+    ${single ? "" : `<fieldset><legend>Which entries</legend>${scopes.map(([v,l],i) => `<label class="opt2"><input type="radio" name="scope" value="${v}" ${i === 0 ? "checked" : ""}> ${h(l)}</label>`).join("")}</fieldset>`}
+    <fieldset><legend>Format</legend>${FORMATS.map((f,i) => `<label class="opt2"><input type="radio" name="fmt" value="${f.id}" ${i === (single ? 0 : 3) ? "checked" : ""}> ${h(labels[f.id] || f.label)}</label>`).join("")}</fieldset>
+    <div class="acts"><button class="q2-btn" value="cancel">Cancel</button><button class="q2-btn" value="preview">Preview</button><button class="q2-btn" value="print">Print</button><button class="q2-btn primary" value="download">Download</button></div>`);
+  if(r.value === "cancel" || !r.value) return;
+  const sorted = S.records.slice().sort((a,b) => String(a.log_no || "\uffff").localeCompare(String(b.log_no || "\uffff"), undefined, { numeric:true }));
+  const scope = single ? "one" : r.data.get("scope");
+  const recs = single ? [single] : scope === "held" ? sorted.filter(x => !isDisposed(x)) : scope === "disposed" ? sorted.filter(isDisposed) : scope === "view" ? view : sorted;
+  if(!recs.length) return M.toast("Nothing in that selection.", "error");
+  const f = FORMATS.find(x => x.id === r.data.get("fmt"));
+  const text = renderExport(recs, f);
+  const tag = single ? `log-${String(single.log_no).replace(/[^\w-]/g,"")}` : scope;
+  if(r.value === "download"){
+    const name = `quickfire_${tag}_${f.id}_${todayISO()}.${f.ext}`;
+    download(name, text, f.ext === "csv" ? "text/csv" : f.ext === "json" ? "application/json" : "text/plain");
+    M.toast(`Download started: ${name}`);
+  } else if(r.value === "print"){
+    const p = $("printout"); p.textContent = text.replace(/^\uFEFF/,"");
+    p.classList.toggle("wide", ["ledger","csv","json"].includes(f.id));
+    setTimeout(() => window.print(), 50);
+  } else {
+    await M.dialog(`<h2>Preview</h2><div class="q2-pre">${h(text.replace(/^\uFEFF/,""))}</div><div class="acts"><button class="q2-btn primary" value="ok">Close</button></div>`, { wide:true });
+  }
+};
+
+/* ---------- events ---------- */
+M.onClick = async e => {
+  const t = e.target;
+  const menu = $("q2").querySelector(".q2-menu");
+  if(menu && !t.closest(".q2-menu")) { menu.classList.remove("open"); }
+  const fb = t.closest("[data-filter]"); if(fb){ M.filter = fb.dataset.filter; return M.render(); }
+  const sb = t.closest("[data-sort]");
+  if(sb){ const k = sb.dataset.sort; M.sort = { key:k, dir: M.sort.key === k ? -M.sort.dir : 1 }; return M.render(); }
+  const row = t.closest("tr[data-idx]"); if(row){ M.sel = S.records[+row.dataset.idx]; M.render(); const c = $("q2").querySelector(".q2-card"); if(c) c.focus?.(); return; }
+  const b = t.closest("[data-act]"); if(!b || b.tagName === "INPUT") return;
+  const a = b.dataset.act;
+  switch(a){
+    case "menu": { const m = b.closest(".q2-menu"); const open = !m.classList.contains("open"); m.classList.toggle("open", open); b.setAttribute("aria-expanded", open); return; }
+    case "new": return M.startEdit(blankRecord(), true);
+    case "open": return M.open();
+    case "save": return M.save(false);
+    case "saveas": return M.save(true);
+    case "export": return M.exportDialog(null);
+    case "exportone": return M.exportDialog(M.sel);
+    case "edit": return M.startEdit(M.sel, false);
+    case "dispose": return M.startEdit(M.sel, false, { gone:true, focus:"disp_date" });
+    case "undispose":
+      if(!(await M.confirm("Mark as held?", `Log ${M.sel.log_no} goes back to held, and its disposition details are erased.`, "Mark as held"))) return;
+      DISP_KEYS.forEach(k => M.sel[k] = ""); M.sel.status = "HELD"; M.sel.modified = stamp(); markDirty(); M.render(); return M.toast(`Log ${M.sel.log_no} is held again.`);
+    case "delete": {
+      const r = M.sel;
+      if(!(await M.confirm(`Delete log ${r.log_no}?`, "This removes the entry from the ledger entirely. If it was sold or transferred, record a disposition instead; that keeps the paper trail.", "Delete entry", true))) return;
+      S.records.splice(S.records.indexOf(r), 1); M.sel = null; markDirty(); M.render(); return M.toast(`Deleted log ${r.log_no}.`);
+    }
+    case "close": M.sel = null; return M.render();
+    case "canceledit": { const o = M.editing && M.editing.orig; M.editing = null; M.view = "list"; M.sel = o || M.sel; return M.render(); }
+    case "addrep": { const box = $("q2").querySelector("#q2-reps"); box.querySelector("[data-act=addrep]").insertAdjacentHTML("beforebegin", M.repRow({ date:"", desc:"", cost:"" })); box.querySelectorAll(".q2-rep-row input[type=date]")[box.querySelectorAll(".q2-rep-row").length - 1].focus(); return; }
+    case "delrep": b.closest(".q2-rep-row").remove(); M.readForm(); return;
+    case "autosave": S.autosave = !S.autosave; M.render(); if(S.autosave && S.fileHandle && S.dirty) autoWrite();
+      return M.toast(S.autosave ? (S.fileHandle ? `Autosave on: changes are written to ${S.fileName} as you make them.` : "Autosave on. It starts once the ledger is saved to a file.") : "Autosave off.");
+    case "recovery": setRecovery(!S.recovery); M.render(); return M.toast(S.recovery ? "Recovery copy on. A plaintext copy is kept in this browser's local storage." : "Recovery copy off and erased.");
+    case "warnings": return M.showWarnings();
+    case "dismisswarn": M.warnings = null; return M.render();
+    case "fresh":
+      if(!(await M.guardDiscard("Starting a new ledger"))) return;
+      S.records = []; S.fileName = ""; S.fileHandle = null; markLoaded(); dropStash(); M.sel = null; M.warnings = null; M.render(); return;
+    case "restore": { const st = M.restore; S.records = st.records; S.fileName = st.fileName || ""; markLoaded(); if(st.dirty){ S.revision = 1; S.dirty = true; } M.restore = null; M.render(); return M.toast("Recovery copy restored." + (S.fileName ? " Saving will ask where to write." : "")); }
+    case "discardrestore": dropStash(); M.restore = null; return M.render();
+    case "clearsearch": M.q = ""; M.filter = "ALL"; return M.render();
+    case "classic":
+      M.sel = null; M.editing = null; M.view = "list"; return setUI("classic");
+  }
+};
+M.onInput = e => {
+  if(e.target.matches(".q2-search")){
+    M.q = e.target.value; const pos = e.target.selectionStart;
+    M.render(); const s = $("q2").querySelector(".q2-search"); s.focus(); s.setSelectionRange(pos, pos);
+  }
+};
+M.onKey = e => {
+  if(S.ui !== "q2") return;
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault(); M.save(e.shiftKey); return; }
+  if(e.key === "/" && !e.target.closest("input,textarea,select")){ const s = $("q2").querySelector(".q2-search"); if(s){ e.preventDefault(); s.focus(); } return; }
+  if(e.key === "Escape" && !document.querySelector("#q2 dialog[open]")){
+    const m = $("q2").querySelector(".q2-menu.open"); if(m){ m.classList.remove("open"); return; }
+    if(M.view === "list" && M.sel){ M.sel = null; M.render(); }
+  }
+  if(e.key === "Enter" && e.target.matches("tr[data-idx]")){ M.sel = S.records[+e.target.dataset.idx]; M.render(); }
+};
 
 /* ═══════════════════════════════════════════════════════════════════════
    EASTER EGG — X at the vault scrolls a random piece of art, then clears
@@ -2104,7 +2735,7 @@ inp.addEventListener("select", renderTyped);
 document.addEventListener("selectionchange", () => { if(document.activeElement === inp) renderTyped(); });
 
 document.addEventListener("keydown", e => {
-  if(S.booting) return;
+  if(S.booting || S.ui === "q2") return;
   const k = e.key;
   if(k === "F1"){ e.preventDefault(); if(W) say("ENTER KEEPS THE BRACKETED VALUE.  -  CLEARS IT.  BACK RETURNS TO THE PREVIOUS FIELD.  ABORT ABANDONS THE ENTRY.", "dim"); else showHelp(); }
   else if(k === "F2" || ((e.ctrlKey || e.metaKey) && k.toLowerCase() === "s")){ e.preventDefault(); if(W) say("FINISH OR ABORT THIS ENTRY FIRST, THEN SAVE."); else saveLogbook(e.shiftKey); }
@@ -2117,6 +2748,7 @@ document.addEventListener("keydown", e => {
 });
 
 document.addEventListener("click", e => {
+  if(S.ui === "q2") return;
   if(S.booting){ S.skipBoot && S.skipBoot(); return; }
   const a = e.target.closest(".opt,.row");
   if(a){ e.preventDefault(); if(S.booting) return; submit(a.dataset.cmd); focusIn(); return; }
@@ -2124,12 +2756,13 @@ document.addEventListener("click", e => {
 });
 document.addEventListener("keydown", e => {
   const a = document.activeElement;
+  if(S.ui === "q2") return;
   if(a && (a.classList.contains("opt") || a.classList.contains("row")) && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); submit(a.dataset.cmd); focusIn(); }
 }, true);
 
 $("filepick").addEventListener("change", async e => {
   const f = e.target.files[0]; if(!f) return;
-  loadText(await f.text(), f.name, null);
+  if(S.ui === "q2") M.adopt(await f.text(), f.name, null); else loadText(await f.text(), f.name, null);
   e.target.value = "";
 });
 let dragDepth = 0;
@@ -2143,6 +2776,12 @@ document.addEventListener("drop", async e => {
   try{ if(item && item.getAsFileSystemHandle){ const h = await item.getAsFileSystemHandle(); if(h && h.kind === "file") handle = h; } }catch(_){}
   const f = handle ? await handle.getFile() : e.dataTransfer.files[0];
   if(!f) return;
+  if(S.ui === "q2"){
+    if(M.view === "edit") return M.toast("Finish or cancel the entry you're editing first.", "error");
+    const text = await f.text();
+    if(await M.guardDiscard(`Opening ${f.name}`)) M.adopt(text, f.name, handle);
+    return;
+  }
   if(W){ err("FINISH OR ABORT THIS ENTRY BEFORE OPENING ANOTHER LEDGER."); return; }
   const text = await f.text();
   if(S.dirty) return confirmDiscard(`LOADING ${f.name.toUpperCase()}`, () => loadText(text, f.name, handle));
@@ -2158,8 +2797,20 @@ renderTop(); setInterval(renderTop, 20000);
 renderStatus();
 psEl.textContent = "";
 renderTyped();
-focusIn();
-boot();
+$("q2").addEventListener("click", M.onClick);
+$("q2").addEventListener("input", M.onInput);
+document.addEventListener("keydown", M.onKey);
+if(savedUI() === "q2"){
+  /* straight into Quickfire 2000: no boot sequence */
+  S.booting = false;
+  loadRecoveryPref();
+  const st = S.recovery ? unstash() : null;
+  if(st && !st.unreadable){ const res = parseLedger(st.csv); if(!res.errors.length && res.records.length) M.restore = { records: res.records, savedAt: st.savedAt, fileName: st.fileName, dirty: st.dirty }; }
+  setUI("q2");
+} else {
+  focusIn();
+  boot();
+}
 </script>
 </body>
 </html>

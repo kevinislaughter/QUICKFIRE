@@ -59,6 +59,18 @@ QUICKFIRE is a sibling of the [Slaughter Cataloger](https://github.com/kevinisla
 
 ---
 
+## Quickfire 2000
+
+Type `2000` at any prompt and the terminal gives way to **Quickfire 2000**: the same program, rebuilt as a plain web application. It has buttons, a sortable and searchable table, an entry card beside the list, an ordinary form for adding and editing entries, and a dialog for exports. There's no boot sequence, no Vault, no CRT glow, and no easter eggs.
+
+Both interfaces work on the same ledger, with the same file handling, checks and export formats. The program remembers which one you used last and opens in it next time. To go back, choose **More → Switch to classic Quickfire**.
+
+![Quickfire 2000](screenshots/quickfire-2000.png)
+
+In Quickfire 2000, **Ctrl+S** (or **⌘S**) saves, **/** jumps to the search box, and **Esc** closes the open entry card.
+
+---
+
 ## Getting started
 
 1. Download `index.html`.
@@ -100,6 +112,7 @@ Type these anywhere outside an entry.
 | `AUTOSAVE` | Toggle writing each change straight to the file |
 | `RECOVERY` | Toggle the browser recovery copy (turning it off erases it) |
 | `SOUND` | Toggle the PC speaker |
+| `2000` | Switch to Quickfire 2000 |
 | `LOOK` | Redraw the screen |
 | `ABOUT` | Version and credits |
 
